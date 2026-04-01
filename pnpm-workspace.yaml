@@ -7,6 +7,7 @@ trustPolicy: no-downgrade
 packages: []
 catalogs:
   build:
+    '@nuxt/content': ^3.15.0
     '@nuxt/devtools': ^3.2.4
     '@nuxt/eslint': ^1.15.2
     '@nuxt/kit': ^4.4.2
@@ -26,11 +27,13 @@ catalogs:
     '@antfu/eslint-config': ^7.7.3
     '@antfu/ni': ^30.2.0
     '@types/node': ^25.5.0
+    better-sqlite3: ^12.11.1
     eslint: ^10.0.3
     eslint-plugin-format: ^2.0.1
     taze: ^19.14.1
     typescript: ^5.9.3
     vue-tsc: ^3.2.6
+    zod: ^4.4.3
   frontend:
     '@vueuse/core': ^14.2.1
     pinia: ^3.0.4
@@ -42,3 +45,4 @@ onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
   - unrs-resolver
+  - better-sqlite3

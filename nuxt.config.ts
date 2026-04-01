@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@vite-pwa/nuxt',
     '@nuxt/eslint',
+    '@nuxt/content',
   ],
 
   devtools: {
@@ -37,6 +38,12 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
 
+  routeRules: {
+    '/': { prerender: true },
+    '/collections': { prerender: false },
+    '/use': { prerender: true },
+  },
+
   future: {
     compatibilityVersion: 4,
   },
@@ -61,6 +68,16 @@ export default defineNuxtConfig({
       crawlLinks: false,
       routes: ['/'],
       ignore: ['/hi'],
+    },
+    preset: 'cloudflare-pages',
+  },
+
+  vite: {
+    optimizeDeps: {
+      include: [
+        '@vue/devtools-core',
+        '@vue/devtools-kit',
+      ],
     },
   },
 

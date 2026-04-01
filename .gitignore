@@ -7,3 +7,9 @@ dist
 .env
 .idea/
 public/assets/fonts
+
+# Draft
+content/_*
+
+# Data
+.data
