@@ -8,6 +8,7 @@ useHead({
 
 <template>
   <VitePwaManifest />
+  <!-- <NuxtRouteAnnouncer /> -->
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
@@ -17,7 +18,7 @@ useHead({
 html,
 body,
 #__nuxt {
-  height: 100vh;
+  min-height: 100dvh;
   margin: 0;
   padding: 0;
 }

@@ -1,2 +1,2 @@
-export const appName = 'Vitesse for Nuxt 4'
-export const appDescription = 'Vitesse for Nuxt 4'
+export const appName = 'Setobox(姬顶盒)'
+export const appDescription = 'Setobox(姬顶盒) 的个人网站'

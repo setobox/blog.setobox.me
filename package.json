@@ -14,17 +14,21 @@
     "lint": "eslint .",
     "typecheck": "nuxt typecheck"
   },
+  "dependencies": {
+    "gsap": "catalog:frontend",
+    "three": "catalog:frontend"
+  },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:dev",
     "@antfu/ni": "catalog:dev",
-    "@iconify-json/carbon": "catalog:icons",
-    "@iconify-json/twemoji": "catalog:icons",
+    "@iconify/json": "catalog:icons",
     "@nuxt/content": "catalog:build",
     "@nuxt/devtools": "catalog:build",
     "@nuxt/eslint": "catalog:build",
     "@nuxtjs/color-mode": "catalog:build",
     "@pinia/nuxt": "catalog:build",
     "@types/node": "catalog:dev",
+    "@types/three": "catalog:types",
     "@unocss/eslint-config": "catalog:build",
     "@unocss/nuxt": "catalog:build",
     "@vite-pwa/nuxt": "catalog:build",

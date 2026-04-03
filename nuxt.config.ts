@@ -20,19 +20,21 @@ export default defineNuxtConfig({
     head: {
       viewport: 'width=device-width,initial-scale=1',
       link: [
-        { rel: 'icon', href: '/favicon.ico', sizes: 'any' },
-        { rel: 'icon', type: 'image/svg+xml', href: '/nuxt.svg' },
-        { rel: 'apple-touch-icon', href: '/apple-touch-icon.png' },
+        { rel: 'icon', href: '/avatar.png', sizes: 'any' },
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: appDescription },
         { name: 'apple-mobile-web-app-status-bar-style', content: 'black-translucent' },
-        { name: 'theme-color', media: '(prefers-color-scheme: light)', content: 'white' },
-        { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#222222' },
+        { name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#f6f4f2' },
+        { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#252423' },
       ],
     },
   },
+
+  css: [
+    '~/assets/main.css',
+  ],
 
   colorMode: {
     classSuffix: '',
@@ -40,7 +42,6 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': { prerender: true },
-    '/collections': { prerender: false },
     '/use': { prerender: true },
   },
 
@@ -67,7 +68,7 @@ export default defineNuxtConfig({
     prerender: {
       crawlLinks: false,
       routes: ['/'],
-      ignore: ['/hi'],
+      failOnError: true,
     },
     preset: 'cloudflare-pages',
   },

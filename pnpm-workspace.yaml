@@ -1,10 +1,9 @@
+autoInstallPeers: false
 shamefullyHoist: true
 shellEmulator: true
 strictPeerDependencies: false
-autoInstallPeers: false
 trustPolicy: no-downgrade
 
-packages: []
 catalogs:
   build:
     '@nuxt/content': ^3.15.0
@@ -36,13 +35,16 @@ catalogs:
     zod: ^4.4.3
   frontend:
     '@vueuse/core': ^14.2.1
+    gsap: ^3.15.0
     pinia: ^3.0.4
+    three: ^0.185.1
     vue: ^3.5.30
   icons:
-    '@iconify-json/carbon': ^1.2.19
-    '@iconify-json/twemoji': ^1.2.5
+    '@iconify/json': ^2.2.495
+  types:
+    '@types/three': ^0.185.1
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - esbuild
   - unrs-resolver
-  - better-sqlite3
+  - workerd
