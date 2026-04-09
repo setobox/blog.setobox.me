@@ -29,11 +29,11 @@ onMounted(() => {
 onScopeDispose(() => tween?.kill())
 
 const navList: readonly NavItem[] = [
-  { name: 'Blog', path: '/blog', icon: 'i-lucide-pen-line' },
-  { name: 'Projects', path: '/projects', icon: 'i-lucide-code' },
-  { name: 'Collections', path: '/collections', icon: 'i-lucide-bookmark' },
-  { name: 'Use', path: '/use', icon: 'i-carbon-tool-box' },
-  { name: 'GitHub', path: 'https://github.com/setobox', icon: 'i-carbon-logo-github' },
+  { name: '文章', path: '/blog', icon: 'i-carbon-container-image' },
+  // { name: 'Projects', path: '/projects', icon: 'i-lucide-code' },
+  { name: '导航', path: '/collections', icon: 'i-lucide-bookmark' },
+  { name: 'Use', path: '/use', icon: 'i-carbon-tools-alt' },
+  { name: '', path: 'https://github.com/setobox', icon: 'i-carbon-logo-github' },
 ]
 </script>
 
