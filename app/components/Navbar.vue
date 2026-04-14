@@ -42,7 +42,7 @@ const navList: readonly NavItem[] = [
     <div class="flex h-20 items-center md:h-18">
       <h1 class="mr-auto">
         <NuxtLink class="inline-flex h-11 w-11 items-center justify-center" to="/" aria-label="Home">
-          <img class="rounded-full h-10 w-10" src="/avatar.png" alt="Setobox">
+          <img class="rounded-full h-10 w-10" src="/avatar.jpg" alt="Setobox">
         </NuxtLink>
       </h1>
       <nav aria-label="Primary navigation">
