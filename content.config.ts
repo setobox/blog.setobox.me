@@ -22,6 +22,12 @@ export default defineContentConfig({
       type: 'page',
       source: 'blog/**/*.md',
       schema: PostSchema,
+      indexes: [
+        {
+          name: 'idx_blog_pagination',
+          columns: ['pin', 'date'],
+        },
+      ],
     }),
     use: defineCollection({
       type: 'page',

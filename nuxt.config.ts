@@ -1,3 +1,4 @@
+import type { FileAfterParseHook } from '@nuxt/content'
 import { appDescription } from './app/constants/index'
 
 export default defineNuxtConfig({
@@ -75,6 +76,17 @@ export default defineNuxtConfig({
       ],
     },
   },
+  hooks: {
+    'content:file:afterParse': ({ collection, content }: FileAfterParseHook) => {
+      if (collection.name !== 'blog')
+        return
+
+      content.pin = typeof content.pin === 'number' && Number.isFinite(content.pin)
+        ? content.pin
+        : content.pin === true ? 1 : undefined
+    },
+  },
+
   eslint: {
     config: {
       standalone: false,

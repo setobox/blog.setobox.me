@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import type { BlogCollectionItem } from '@nuxt/content'
+import type { BlogPostSummary } from '#shared/types/blog'
 import { useDateFormat } from '@vueuse/core'
 import { computed } from 'vue'
 
 interface Props {
-  post: BlogCollectionItem
+  post: BlogPostSummary
 }
 
 const props = defineProps<Props>()
