@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { gsap } from 'gsap'
 import { onMounted, onScopeDispose, useTemplateRef } from 'vue'
 
 interface NavItem {
@@ -11,22 +10,29 @@ interface NavItem {
 
 const header = useTemplateRef<HTMLElement>('header')
 
-let tween: gsap.core.Tween | undefined
+let disposed = false
+let stopAnimation: (() => void) | undefined
 
 const isHome = useRoute().path === '/'
 
-onMounted(() => {
-  if (!header.value)
+onMounted(async () => {
+  const shouldAnimateEntrance = isGsapReady()
+  const gsap = await loadGsap()
+  if (disposed || !shouldAnimateEntrance || !gsap || !header.value)
     return
 
-  tween = gsap.from(header.value, {
+  const tween = gsap.from(header.value, {
     duration: 0.4,
     autoAlpha: 0,
     delay: isHome ? 1 : 0,
   })
+  stopAnimation = () => tween.kill()
 })
 
-onScopeDispose(() => tween?.kill())
+onScopeDispose(() => {
+  disposed = true
+  stopAnimation?.()
+})
 
 const navList: readonly NavItem[] = [
   { name: '文章', path: '/blog', icon: 'i-carbon-container-image' },

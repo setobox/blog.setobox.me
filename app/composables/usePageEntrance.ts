@@ -1,16 +1,18 @@
 import type { Ref } from 'vue'
-import { gsap } from 'gsap'
 import { onMounted, onScopeDispose } from 'vue'
 
 export function usePageEntrance(target: Readonly<Ref<HTMLElement | null>>): void {
-  let context: ReturnType<typeof gsap.context> | undefined
+  let disposed = false
+  let stopAnimation: (() => void) | undefined
 
-  onMounted(() => {
+  onMounted(async () => {
+    const shouldAnimateEntrance = isGsapReady()
+    const gsap = await loadGsap()
     const root = target.value
-    if (!root)
+    if (disposed || !shouldAnimateEntrance || !gsap || !root)
       return
 
-    context = gsap.context(() => {
+    const context = gsap.context(() => {
       const intro = root.querySelector<HTMLElement>('[data-page-intro]')
       const items = root.querySelectorAll<HTMLElement>('[data-page-item]')
       const timeline = gsap.timeline({
@@ -37,7 +39,11 @@ export function usePageEntrance(target: Readonly<Ref<HTMLElement | null>>): void
         }, intro ? '-=0.2' : 0)
       }
     }, root)
+    stopAnimation = () => context.revert()
   })
 
-  onScopeDispose(() => context?.revert())
+  onScopeDispose(() => {
+    disposed = true
+    stopAnimation?.()
+  })
 }

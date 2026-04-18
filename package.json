@@ -14,7 +14,6 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "gsap": "catalog:frontend",
     "three": "catalog:frontend"
   },
   "devDependencies": {
@@ -35,6 +34,7 @@
     "better-sqlite3": "catalog:dev",
     "eslint": "catalog:dev",
     "eslint-plugin-format": "catalog:dev",
+    "gsap": "catalog:frontend",
     "nuxt": "catalog:build",
     "pinia": "catalog:frontend",
     "taze": "catalog:dev",

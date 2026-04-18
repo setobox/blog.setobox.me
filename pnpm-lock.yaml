@@ -99,9 +99,6 @@ importers:
 
   .:
     dependencies:
-      gsap:
-        specifier: catalog:frontend
-        version: 3.15.0
       three:
         specifier: catalog:frontend
         version: 0.185.1
@@ -157,6 +154,9 @@ importers:
       eslint-plugin-format:
         specifier: catalog:dev
         version: 2.0.1(eslint@10.0.3(jiti@2.7.0))
+      gsap:
+        specifier: catalog:frontend
+        version: 3.15.0
       nuxt:
         specifier: ^4.4.2
         version: 4.4.2(@babel/core@7.29.0)(@babel/plugin-syntax-jsx@7.27.1(@babel/core@7.29.0))(@parcel/watcher@2.5.1)(@types/node@25.5.0)(@vue/compiler-sfc@3.5.30)(better-sqlite3@12.11.1)(cac@6.7.14)(db0@0.3.4(better-sqlite3@12.11.1))(esbuild@0.27.3)(eslint@10.0.3(jiti@2.7.0))(ioredis@5.9.2)(magicast@0.5.2)(optionator@0.9.4)(pinia@3.0.4(typescript@5.9.3)(vue@3.5.30(typescript@5.9.3)))(rolldown@1.0.0-rc.9)(rollup-plugin-visualizer@6.0.5(rolldown@1.0.0-rc.9)(rollup@4.57.1))(rollup@4.57.1)(terser@5.39.0)(typescript@5.9.3)(vite@8.0.0(@types/node@25.5.0)(esbuild@0.27.3)(jiti@2.7.0)(terser@5.39.0)(yaml@2.9.0))(vue-tsc@3.2.6(typescript@5.9.3))(yaml@2.9.0)

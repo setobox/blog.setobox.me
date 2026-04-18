@@ -1,8 +1,12 @@
 <script setup lang="ts">
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { SplitText } from 'gsap/SplitText'
 import { onMounted, onUnmounted, useTemplateRef } from 'vue'
+
+type Gsap = typeof import('gsap')['gsap']
+type SplitText = typeof import('gsap/SplitText')['SplitText']
+type SplitTextInstance = ReturnType<SplitText['create']>
+type GsapTween = ReturnType<Gsap['from']>
+type GsapTimeline = ReturnType<Gsap['timeline']>
+type GsapDelayedCall = ReturnType<Gsap['delayedCall']>
 
 const roles = ['开发者', '游戏玩家', '动画爱好者'] as const
 
@@ -12,15 +16,16 @@ const descriptionElement = useTemplateRef<HTMLElement>('description')
 const roleElement = useTemplateRef<HTMLElement>('role')
 const dotElement = useTemplateRef<HTMLElement>('dot')
 
-let introSplit: ReturnType<typeof SplitText.create> | undefined
-let descriptionSplit: ReturnType<typeof SplitText.create> | undefined
-let introTween: ReturnType<typeof gsap.from> | undefined
-let descriptionTween: ReturnType<typeof gsap.from> | undefined
-let scrollTimeline: ReturnType<typeof gsap.timeline> | undefined
+let disposed = false
+let introSplit: SplitTextInstance | undefined
+let descriptionSplit: SplitTextInstance | undefined
+let introTween: GsapTween | undefined
+let descriptionTween: GsapTween | undefined
+let scrollTimeline: GsapTimeline | undefined
 let stopRoleLoop: (() => void) | undefined
 
-function createRoleSplit(target: HTMLElement) {
-  return SplitText.create(target, {
+function createRoleSplit(splitText: SplitText, target: HTMLElement) {
+  return splitText.create(target, {
     type: 'words, chars',
     tag: 'span',
     wordsClass: 'role-word',
@@ -32,11 +37,11 @@ function getStaggeredDuration(itemCount: number, duration: number, each: number)
   return Math.max(0, (itemCount - 1) * each + duration)
 }
 
-function createRoleLoop(target: HTMLElement, dot: HTMLElement) {
+function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, dot: HTMLElement) {
   let roleIndex = 0
-  let split = createRoleSplit(target)
-  let activeTween: ReturnType<typeof gsap.timeline> | undefined
-  let activeDelay: ReturnType<typeof gsap.delayedCall> | undefined
+  let split = createRoleSplit(splitText, target)
+  let activeTween: GsapTimeline | undefined
+  let activeDelay: GsapDelayedCall | undefined
   let isActive = true
   const dotColor = getComputedStyle(dot).color
   const activeDotColor = 'red'
@@ -107,7 +112,7 @@ function createRoleLoop(target: HTMLElement, dot: HTMLElement) {
     split.revert()
     roleIndex = (roleIndex + 1) % roles.length
     target.textContent = roles[roleIndex] ?? roles[0]
-    split = createRoleSplit(target)
+    split = createRoleSplit(splitText, target)
 
     gsap.set(split.chars, {
       opacity: 0,
@@ -173,45 +178,67 @@ function createRoleLoop(target: HTMLElement, dot: HTMLElement) {
   }
 }
 
-onMounted(() => {
-  if (!hero.value || !introElement.value || !descriptionElement.value || !roleElement.value || !dotElement.value)
+onMounted(async () => {
+  const shouldAnimateEntrance = areGsapPluginsReady()
+  const runtime = await loadGsapWithPlugins()
+  if (
+    disposed
+    || !runtime
+    || !hero.value
+    || !introElement.value
+    || !descriptionElement.value
+    || !roleElement.value
+    || !dotElement.value
+  ) {
     return
+  }
 
-  gsap.registerPlugin(SplitText, ScrollTrigger)
+  const { gsap, SplitText } = runtime
 
-  introSplit = SplitText.create(introElement.value, { type: 'words, chars' })
+  if (shouldAnimateEntrance) {
+    introSplit = SplitText.create(introElement.value, { type: 'words, chars' })
 
-  introTween = gsap.from(introSplit.chars, {
-    duration: 0.5,
-    translateX: 10,
-    autoAlpha: 0,
-    stagger: 0.05,
-  })
+    introTween = gsap.from(introSplit.chars, {
+      duration: 0.5,
+      translateX: 10,
+      autoAlpha: 0,
+      stagger: 0.05,
+    })
 
-  descriptionSplit = SplitText.create(descriptionElement.value, {
-    type: 'words, chars',
-  })
-  descriptionTween = gsap.from(descriptionSplit.chars, {
-    duration: 0.5,
-    translateX: 10,
-    autoAlpha: 0,
-    stagger: 0.05,
-    delay: 0.5,
-  })
+    descriptionSplit = SplitText.create(descriptionElement.value, {
+      type: 'words, chars',
+    })
+    descriptionTween = gsap.from(descriptionSplit.chars, {
+      duration: 0.5,
+      translateX: 10,
+      autoAlpha: 0,
+      stagger: 0.05,
+      delay: 0.5,
+    })
+  }
 
-  stopRoleLoop = createRoleLoop(roleElement.value, dotElement.value)
+  stopRoleLoop = createRoleLoop(gsap, SplitText, roleElement.value, dotElement.value)
 
-  scrollTimeline = gsap.timeline({
-    scrollTrigger: {
-      trigger: hero.value,
-      start: 'top top',
-      end: 'bottom top',
-      scrub: true,
-    },
-  }).to('.header-link', { y: 1000, autoAlpha: 0 })
+  const context = gsap.context(() => {
+    scrollTimeline = gsap.timeline({
+      scrollTrigger: {
+        trigger: hero.value,
+        start: 'top top',
+        end: 'bottom top',
+        scrub: true,
+      },
+    }).to('.header-link', { y: 1000, autoAlpha: 0 })
+  }, hero.value)
+
+  const previousStopRoleLoop = stopRoleLoop
+  stopRoleLoop = () => {
+    previousStopRoleLoop?.()
+    context.revert()
+  }
 })
 
 onUnmounted(() => {
+  disposed = true
   stopRoleLoop?.()
   introTween?.kill()
   descriptionTween?.kill()

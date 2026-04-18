@@ -20,6 +20,8 @@ export default defineNuxtConfig({
       viewport: 'width=device-width,initial-scale=1',
       link: [
         { rel: 'icon', href: '/avatar.jpg', sizes: 'any' },
+        { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' },
+        { rel: 'dns-prefetch', href: 'https://cdn.jsdelivr.net' },
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
