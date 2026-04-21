@@ -8,21 +8,8 @@ useHead({
 
 <template>
   <!-- <NuxtRouteAnnouncer /> -->
+  <Navbar />
   <NuxtLayout>
     <NuxtPage />
   </NuxtLayout>
 </template>
-
-<style>
-html,
-body,
-#__nuxt {
-  min-height: 100dvh;
-  margin: 0;
-  padding: 0;
-}
-
-html.dark {
-  color-scheme: dark;
-}
-</style>
