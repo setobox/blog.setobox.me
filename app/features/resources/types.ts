@@ -3,7 +3,8 @@ export type ResourceIcon = `i-carbon-${string}` | `i-lucide-${string}`
 export interface ResourceLink {
   description: string
   href: string
-  icon: ResourceIcon
+  icon?: ResourceIcon
+  imageUrl?: string
   title: string
 }
 

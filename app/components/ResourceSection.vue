@@ -26,16 +26,29 @@ function isExternalLink(href: string): boolean {
     <ul v-if="group.items.length" class="m-0 p-0 list-none gap-x-8 grid md:grid-cols-2 xl:grid-cols-3">
       <li v-for="item in group.items" :key="item.href" class="border-b border-fg-7">
         <NuxtLink
-          class="group text-fg-2 py-5 no-underline flex gap-4 min-h-28 transition-colors duration-150 items-start hover:text-fg-1 focus-visible:outline-2 focus-visible:outline-fg-3 focus-visible:outline-offset-2"
+          class="group text-fg-2 py-5 no-underline flex gap-4 min-h-20 transition-colors duration-150 items-start hover:text-fg-1 focus-visible:outline-2 focus-visible:outline-fg-3 focus-visible:outline-offset-2"
           :external="isExternalLink(item.href)"
           :rel="isExternalLink(item.href) ? 'noopener noreferrer' : undefined"
           :target="isExternalLink(item.href) ? '_blank' : undefined"
           :to="item.href"
         >
-          <span class="text-fg-3 border border-fg-7 flex shrink-0 h-11 w-11 transition-colors duration-150 items-center justify-center group-hover:text-fg-1 group-hover:border-fg-5">
-            <span :class="item.icon" class="text-xl" aria-hidden="true" />
+          <span class="text-fg-3 flex shrink-0 h-11 w-11 transition-colors duration-150 items-center justify-center group-hover:text-fg-1">
+            <img
+              v-if="item.imageUrl"
+              class="h-8 w-8 object-contain"
+              :src="item.imageUrl"
+              alt=""
+              loading="lazy"
+              referrerpolicy="no-referrer"
+            >
+            <span
+              v-else
+              :class="item.icon ?? 'i-lucide-link-2'"
+              class="text-xl"
+              aria-hidden="true"
+            />
           </span>
-          <span class="flex-1 min-w-0">
+          <span class="flex-1 min-w-0 transition-transform duration-150 group-hover:translate-x-0.5">
             <span class="font-bold flex gap-2 items-center">
               <span class="truncate">{{ item.title }}</span>
               <span v-if="isExternalLink(item.href)" class="i-lucide-arrow-up-right text-sm shrink-0" aria-hidden="true" />
