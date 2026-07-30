@@ -9,9 +9,10 @@ const {
   error,
   refresh,
   status,
-} = await useFetch<ResourceGroup[]>('/api/collections', {
+} = await useLazyFetch<ResourceGroup[]>('/api/collections', {
   default: () => [],
   key: 'collection-groups',
+  server: false,
 })
 
 usePageEntrance(pageRoot)
@@ -39,7 +40,7 @@ usePageEntrance(pageRoot)
     </div>
 
     <p
-      v-else-if="status === 'pending' && !collectionGroups.length"
+      v-else-if="(status === 'idle' || status === 'pending') && !collectionGroups.length"
       class="text-sm text-fg-4 mt-12 md:mt-16"
       aria-live="polite"
     >

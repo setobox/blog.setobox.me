@@ -16,22 +16,34 @@ const EXCLUDED_FIELDS = [
   'version',
 ].join(',')
 
-export default defineEventHandler(async (): Promise<ResourceGroup[]> => {
-  try {
-    const response: unknown = await $fetch(MILANOTE_DETAIL_ENDPOINT, {
-      query: {
-        exclude: EXCLUDED_FIELDS,
-        url: MILANOTE_BOARD_URL,
-      },
-    })
+export default defineCachedEventHandler(
+  async (): Promise<ResourceGroup[]> => {
+    try {
+      const response: unknown = await $fetch(MILANOTE_DETAIL_ENDPOINT, {
+        query: {
+          exclude: EXCLUDED_FIELDS,
+          url: MILANOTE_BOARD_URL,
+        },
+        retry: 0,
+        timeout: 5_000,
+      })
 
-    return parseMilanoteCollections(response)
-  }
-  catch (cause) {
-    throw createError({
-      cause,
-      statusCode: 502,
-      statusMessage: 'Unable to load collection data',
-    })
-  }
-})
+      return parseMilanoteCollections(response)
+    }
+    catch (cause) {
+      throw createError({
+        cause,
+        statusCode: 502,
+        statusMessage: 'Unable to load collection data',
+      })
+    }
+  },
+  {
+    getKey: () => 'milanote-board',
+    group: 'api',
+    maxAge: 60 * 60,
+    name: 'collections',
+    staleMaxAge: 24 * 60 * 60,
+    swr: true,
+  },
+)
