@@ -44,6 +44,13 @@ export default defineNuxtConfig({
     classSuffix: '',
   },
 
+  content: {
+    database: {
+      type: 'd1',
+      bindingName: 'setobox-db',
+    },
+  },
+
   routeRules: {
     '/': { prerender: true },
     '/use': { prerender: true },
@@ -58,7 +65,7 @@ export default defineNuxtConfig({
     typedPages: true,
   },
 
-  compatibilityDate: '2024-08-14',
+  compatibilityDate: '2026-04-01',
 
   nitro: {
     esbuild: {

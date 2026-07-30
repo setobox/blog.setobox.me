@@ -13,3 +13,4 @@ content/_*
 
 # Data
 .data
+.wrangler

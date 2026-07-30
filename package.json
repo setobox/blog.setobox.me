@@ -14,7 +14,8 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "three": "catalog:frontend"
+    "three": "catalog:frontend",
+    "wrangler": "catalog:build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:dev",
