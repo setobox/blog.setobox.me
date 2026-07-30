@@ -23,6 +23,7 @@
     "@nuxt/content": "catalog:build",
     "@nuxt/devtools": "catalog:build",
     "@nuxt/eslint": "catalog:build",
+    "@nuxt/image": "catalog:build",
     "@nuxtjs/color-mode": "catalog:build",
     "@pinia/nuxt": "catalog:build",
     "@types/node": "catalog:dev",

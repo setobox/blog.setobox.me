@@ -33,14 +33,18 @@ function isExternalLink(href: string): boolean {
           :to="item.href"
         >
           <span class="text-fg-3 flex shrink-0 h-11 w-11 transition-colors duration-150 items-center justify-center group-hover:text-fg-1">
-            <img
+            <NuxtImg
               v-if="item.imageUrl"
               class="h-8 w-8 object-contain"
               :src="item.imageUrl"
               alt=""
+              width="32"
+              height="32"
+              provider="none"
               loading="lazy"
+              decoding="async"
               referrerpolicy="no-referrer"
-            >
+            />
             <span
               v-else
               :class="item.icon ?? 'i-lucide-link-2'"

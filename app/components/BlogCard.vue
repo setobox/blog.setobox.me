@@ -52,14 +52,20 @@ const isPinned = computed(() => Boolean(props.post.pin))
       :to="post.path"
       :aria-label="`阅读《${post.title}》`"
     >
-      <img
+      <NuxtImg
         v-if="post.cover"
         class="h-full w-full transition-transform duration-500 inset-0 absolute object-cover group-hover:scale-105"
         :src="post.cover"
         :alt="`${post.title} 封面`"
+        width="896"
+        height="504"
+        sizes="100vw sm:42vw lg:380px"
+        fit="cover"
+        format="webp"
+        quality="80"
         loading="lazy"
         decoding="async"
-      >
+      />
       <div v-else class="flex-center inset-0 absolute">
         <span class="i-lucide-image text-4xl text-fg-5" aria-hidden="true" />
       </div>

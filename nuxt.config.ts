@@ -9,6 +9,7 @@ export default defineNuxtConfig({
     '@nuxtjs/color-mode',
     '@nuxt/eslint',
     '@nuxt/content',
+    '@nuxt/image',
   ],
 
   devtools: {
@@ -19,7 +20,12 @@ export default defineNuxtConfig({
     head: {
       viewport: 'width=device-width,initial-scale=1',
       link: [
-        { rel: 'icon', href: '/avatar.jpg', sizes: 'any' },
+        {
+          rel: 'icon',
+          href: '/_ipx/f_webp&q_80&s_40x40/avatar.jpg',
+          sizes: '40x40',
+          type: 'image/webp',
+        },
         { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' },
         { rel: 'dns-prefetch', href: 'https://cdn.jsdelivr.net' },
       ],
@@ -98,4 +104,10 @@ export default defineNuxtConfig({
     },
   },
 
+  image: {
+    domains: ['cdn.jsdelivr.net'],
+    providers: {
+      none: {},
+    },
+  },
 })
