@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { onMounted, onUnmounted, useTemplateRef } from 'vue'
+import { until, usePreferredReducedMotion } from '@vueuse/core'
+import { nextTick, onMounted, onUnmounted, useTemplateRef } from 'vue'
 
 type Gsap = typeof import('gsap')['gsap']
 type SplitText = typeof import('gsap/SplitText')['SplitText']
@@ -15,6 +16,12 @@ const introElement = useTemplateRef<HTMLElement>('intro')
 const descriptionElement = useTemplateRef<HTMLElement>('description')
 const roleElement = useTemplateRef<HTMLElement>('role')
 const dotElement = useTemplateRef<HTMLElement>('dot')
+const preferredReducedMotion = usePreferredReducedMotion()
+const route = useRoute()
+const {
+  active: homeLoadingActive,
+  targetIsHome,
+} = useHomeLoading()
 
 let disposed = false
 let introSplit: SplitTextInstance | undefined
@@ -43,7 +50,7 @@ function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, d
   let activeTween: GsapTimeline | undefined
   let activeDelay: GsapDelayedCall | undefined
   let isActive = true
-  const dotColor = getComputedStyle(dot).color
+  const dotColor = 'white'
   const activeDotColor = 'var(--theme-1)'
 
   gsap.set(split.chars, {
@@ -88,6 +95,7 @@ function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, d
       .to(dot, {
         duration: moveDuration,
         ease: 'circ.out',
+        color: dotColor,
         translateX: -target.offsetWidth,
       }, 0)
       .to(dot, {
@@ -148,7 +156,7 @@ function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, d
         duration: moveDuration,
         ease: 'circ.out',
         // x: 0,
-
+        color: dotColor,
         transformOrigin: 'center 0',
       }, 0)
       .to(dot, {
@@ -178,12 +186,43 @@ function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, d
   }
 }
 
+async function waitForHomeLoadingExit(): Promise<boolean> {
+  while (true) {
+    if (disposed)
+      return false
+
+    await until(
+      () => route.path !== '/'
+        || (targetIsHome.value && !homeLoadingActive.value),
+    ).toBe(true)
+    await nextTick()
+
+    if (disposed || route.path !== '/')
+      return false
+
+    if (targetIsHome.value && !homeLoadingActive.value)
+      return true
+  }
+}
+
+function prefersReducedMotion(): boolean {
+  return preferredReducedMotion.value === 'reduce'
+}
+
 onMounted(async () => {
+  const readyToAnimate = await waitForHomeLoadingExit()
+  if (!readyToAnimate || prefersReducedMotion())
+    return
+
   const shouldAnimateEntrance = areGsapPluginsReady()
   const runtime = await loadGsapWithPlugins()
   if (
     disposed
     || !runtime
+    || route.path !== '/'
+    || !targetIsHome.value
+    || homeLoadingActive.value
+    || prefersReducedMotion()
     || !hero.value
     || !introElement.value
     || !descriptionElement.value

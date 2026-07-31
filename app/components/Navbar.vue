@@ -56,6 +56,7 @@ const navList: readonly NavItem[] = [
             width="40"
             height="40"
             densities="x1 x2"
+            data-image-loaded
             format="webp"
             quality="80"
             preload
@@ -66,7 +67,7 @@ const navList: readonly NavItem[] = [
         <ul class="flex gap-1 md:gap-4 sm:gap-2">
           <li v-for="nav in navList" :key="nav.name">
             <NuxtLink
-              class="text-fg-3 font-bold inline-flex gap-2 h-11 w-10 transition-colors duration-150 items-center justify-center hover:text-fg-1 md:px-1 focus-visible:outline-2 focus-visible:outline-fg-3 focus-visible:outline-offset-2 md:w-auto"
+              class="text-fg-3 font-bold inline-flex gap-2 h-11 w-10 transition-colors duration-150 items-center justify-center hover:text-current-1 md:px-1 focus-visible:outline-2 focus-visible:outline-fg-3 focus-visible:outline-offset-2 md:w-auto"
               active-class="text-fg-1"
               :aria-label="nav.name"
               :rel="nav.external ? 'noopener noreferrer' : undefined"
@@ -74,7 +75,7 @@ const navList: readonly NavItem[] = [
               :to="nav.path"
             >
               <span :class="nav.icon" class="text-xl" aria-hidden="true" />
-              <span class="sr-only md:not-sr-only">
+              <span v-if="nav.name" class="sr-only md:not-sr-only">
                 {{ nav.name }}
               </span>
             </NuxtLink>
