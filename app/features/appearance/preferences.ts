@@ -21,9 +21,11 @@ export const THEME_PRESETS = [
 ] as const
 
 export const CUSTOM_THEME_MIX_PERCENTAGES = [82, 55, 45, 35, 25, 15, 7] as const
+export const GRAIN_LAYERS = ['background', 'content', 'top'] as const
 
 export type ThemePreset = typeof THEME_PRESETS[number]['name']
 export type ThemePresetOption = typeof THEME_PRESETS[number]
+export type GrainLayer = typeof GRAIN_LAYERS[number]
 
 export interface PresetAccentSelection {
   mode: 'preset'
@@ -39,11 +41,14 @@ export type AccentSelection = CustomAccentSelection | PresetAccentSelection
 
 export interface AppearancePreferences {
   accent: AccentSelection
+  grainEnabled: boolean
+  grainLayer: GrainLayer
 }
 
 const DEFAULT_PRESET: ThemePreset = 'sky'
 const DEFAULT_HUE = THEME_PRESETS.find(({ name }) => name === DEFAULT_PRESET)?.hue ?? 298
 const themePresetNames = new Set<string>(THEME_PRESETS.map(({ name }) => name))
+const grainLayers = new Set<string>(GRAIN_LAYERS)
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -51,6 +56,10 @@ function isRecord(value: unknown): value is Record<string, unknown> {
 
 export function isThemePreset(value: unknown): value is ThemePreset {
   return typeof value === 'string' && themePresetNames.has(value)
+}
+
+export function isGrainLayer(value: unknown): value is GrainLayer {
+  return typeof value === 'string' && grainLayers.has(value)
 }
 
 export function clampHue(value: unknown): number {
@@ -67,33 +76,42 @@ export function createDefaultAppearancePreferences(): AppearancePreferences {
       mode: 'preset',
       preset: DEFAULT_PRESET,
     },
+    grainEnabled: false,
+    grainLayer: 'top',
   }
 }
 
 export function sanitizeAppearancePreferences(value: unknown): AppearancePreferences {
   const defaults = createDefaultAppearancePreferences()
-  if (!isRecord(value) || !isRecord(value.accent))
+  if (!isRecord(value))
     return defaults
 
-  if (value.accent.mode === 'preset' && isThemePreset(value.accent.preset)) {
-    return {
-      accent: {
+  let accent = defaults.accent
+
+  if (isRecord(value.accent)) {
+    if (value.accent.mode === 'preset' && isThemePreset(value.accent.preset)) {
+      accent = {
         mode: 'preset',
         preset: value.accent.preset,
-      },
+      }
     }
-  }
-
-  if (value.accent.mode === 'custom') {
-    return {
-      accent: {
+    else if (value.accent.mode === 'custom') {
+      accent = {
         mode: 'custom',
         hue: clampHue(value.accent.hue),
-      },
+      }
     }
   }
 
-  return defaults
+  return {
+    accent,
+    grainEnabled: typeof value.grainEnabled === 'boolean'
+      ? value.grainEnabled
+      : defaults.grainEnabled,
+    grainLayer: isGrainLayer(value.grainLayer)
+      ? value.grainLayer
+      : defaults.grainLayer,
+  }
 }
 
 export function deserializeAppearancePreferences(raw: string): AppearancePreferences {
@@ -131,13 +149,24 @@ export function applyAccentSelection(root: HTMLElement, accent: AccentSelection)
   })
 }
 
+export function applyAppearancePreferences(
+  root: HTMLElement,
+  preferences: AppearancePreferences,
+): void {
+  applyAccentSelection(root, preferences.accent)
+  root.dataset.grainEnabled = String(preferences.grainEnabled)
+  root.dataset.grainLayer = preferences.grainLayer
+}
+
 const bootstrapPresetNames = JSON.stringify(THEME_PRESETS.map(({ name }) => name))
 const bootstrapMixPercentages = JSON.stringify(CUSTOM_THEME_MIX_PERCENTAGES)
+const bootstrapGrainLayers = JSON.stringify(GRAIN_LAYERS)
 
 export const APPEARANCE_BOOTSTRAP_SCRIPT = `(() => {
   const root = document.documentElement
   const presets = new Set(${bootstrapPresetNames})
   const mixes = ${bootstrapMixPercentages}
+  const grainLayers = new Set(${bootstrapGrainLayers})
   const clampHue = value => {
     const hue = Number(value)
     return Number.isFinite(hue) ? Math.min(360, Math.max(0, Math.round(hue))) : 298
@@ -162,16 +191,26 @@ export const APPEARANCE_BOOTSTRAP_SCRIPT = `(() => {
       )
     })
   }
-  let accent = { mode: 'preset', preset: 'sky' }
+  let preferences = {
+    accent: { mode: 'preset', preset: 'sky' },
+    grainEnabled: false,
+    grainLayer: 'top',
+  }
   try {
     const raw = localStorage.getItem('${APPEARANCE_STORAGE_KEY}')
     const stored = raw ? JSON.parse(raw) : null
     const candidate = stored && stored.accent
     if (candidate && candidate.mode === 'preset' && presets.has(candidate.preset))
-      accent = { mode: 'preset', preset: candidate.preset }
+      preferences.accent = { mode: 'preset', preset: candidate.preset }
     else if (candidate && candidate.mode === 'custom')
-      accent = { mode: 'custom', hue: clampHue(candidate.hue) }
+      preferences.accent = { mode: 'custom', hue: clampHue(candidate.hue) }
+    if (stored && typeof stored.grainEnabled === 'boolean')
+      preferences.grainEnabled = stored.grainEnabled
+    if (stored && grainLayers.has(stored.grainLayer))
+      preferences.grainLayer = stored.grainLayer
   }
   catch {}
-  apply(accent)
+  apply(preferences.accent)
+  root.dataset.grainEnabled = String(preferences.grainEnabled)
+  root.dataset.grainLayer = preferences.grainLayer
 })()`

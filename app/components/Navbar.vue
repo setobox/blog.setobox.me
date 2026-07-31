@@ -45,7 +45,7 @@ const navList: readonly NavItem[] = [
 </script>
 
 <template>
-  <header ref="header" class="font-mono container px-4 lg:px-6">
+  <header ref="header" class="site-navbar font-mono container px-4 lg:px-6">
     <div class="flex h-20 items-center md:h-18">
       <h1 class="mr-auto">
         <NuxtLink class="inline-flex h-11 w-11 items-center justify-center" to="/" aria-label="Home">
@@ -87,3 +87,10 @@ const navList: readonly NavItem[] = [
     </div>
   </header>
 </template>
+
+<style scoped>
+.site-navbar {
+  position: relative;
+  z-index: 300;
+}
+</style>

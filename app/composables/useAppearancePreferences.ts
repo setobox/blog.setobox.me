@@ -1,10 +1,14 @@
 import type { Serializer } from '@vueuse/core'
-import type { AppearancePreferences, ThemePreset } from '~/features/appearance/preferences'
+import type {
+  AppearancePreferences,
+  GrainLayer,
+  ThemePreset,
+} from '~/features/appearance/preferences'
 import { useLocalStorage } from '@vueuse/core'
 import { computed, readonly, watch } from 'vue'
 import {
   APPEARANCE_STORAGE_KEY,
-  applyAccentSelection,
+  applyAppearancePreferences,
   clampHue,
   createDefaultAppearancePreferences,
   deserializeAppearancePreferences,
@@ -37,7 +41,7 @@ export function useAppearancePreferences() {
     watch(
       preferences,
       (value) => {
-        applyAccentSelection(document.documentElement, value.accent)
+        applyAppearancePreferences(document.documentElement, value)
 
         if (JSON.stringify(storedPreferences.value) !== JSON.stringify(value))
           storedPreferences.value = value
@@ -64,9 +68,12 @@ export function useAppearancePreferences() {
       ? preferences.value.accent.preset
       : null,
   )
+  const grainEnabled = computed(() => preferences.value.grainEnabled)
+  const grainLayer = computed(() => preferences.value.grainLayer)
 
   function setPreset(preset: ThemePreset): void {
     preferences.value = {
+      ...preferences.value,
       accent: {
         mode: 'preset',
         preset,
@@ -76,6 +83,7 @@ export function useAppearancePreferences() {
 
   function setHue(hue: number): void {
     preferences.value = {
+      ...preferences.value,
       accent: {
         mode: 'custom',
         hue: clampHue(hue),
@@ -84,15 +92,36 @@ export function useAppearancePreferences() {
   }
 
   function resetAccent(): void {
-    preferences.value = createDefaultAppearancePreferences()
+    preferences.value = {
+      ...preferences.value,
+      accent: createDefaultAppearancePreferences().accent,
+    }
+  }
+
+  function setGrainEnabled(enabled: boolean): void {
+    preferences.value = {
+      ...preferences.value,
+      grainEnabled: enabled,
+    }
+  }
+
+  function setGrainLayer(layer: GrainLayer): void {
+    preferences.value = {
+      ...preferences.value,
+      grainLayer: layer,
+    }
   }
 
   return {
     currentHue,
+    grainEnabled,
+    grainLayer,
     preferences: readonly(preferences),
     presets: THEME_PRESETS,
     resetAccent,
     selectedPreset,
+    setGrainEnabled,
+    setGrainLayer,
     setHue,
     setPreset,
   }
