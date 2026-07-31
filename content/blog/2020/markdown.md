@@ -1,17 +1,15 @@
 ---
-title: MarkDown快速入门
+title: MarkDown 快速入门
 tags:
-  - MarkDown
+  - markdown
 categories:
   - 笔记
-cover: 'https://cdn.jsdelivr.net/gh/setobox/Pic-repo/imgs/20210122133648.png'
-abbrlink: 3958530d
-date: 2020-05-25 12:10:12
+cover: '/images/posts/markdown.png'
+date: 1970-01-01 00:00:00
 ---
+# MarkDown 简单介绍
 
-# MarkDown简单介绍
-
-> Markdown是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。——百度百科
+> Markdown 是一种可以使用普通文本编辑器编写的标记语言，通过简单的标记语法，它可以使普通文本内容具有一定的格式。——百度百科
 
 ```
 Markdown语法简单，功能强大，因此广泛应用于写博客。Markdown的转化十分多样，在网上就能找到在线转化工具，https://tableconvert.com/，转化为多种形式，十分便利。
@@ -29,7 +27,7 @@ Markdown语法简单，功能强大，因此广泛应用于写博客。Markdown�
 ####	标题4
 #####	标题5
 ######	标题6
-等同于html语言中的h1\h2……
+等同于 HTML 语言中的 h1 ~ h6
 ```
 
 如下所示:
@@ -124,8 +122,9 @@ Markdown中用两个 _包含一段文本就是粗体的语法，用一个_ 包�
 | c  | cc | ccc |
 ```
 
+
 | 列1 | 列2 | 列3 |
-| --- | --- | --- |
+| ----- | ----- | ----- |
 | a   | aa  | aaa |
 | b   | bb  | bbb |
 | c   | cc  | ccc |
