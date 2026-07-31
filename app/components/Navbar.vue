@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { onMounted, onScopeDispose, useTemplateRef } from 'vue'
+import ThemeSettings from './settings/ThemeSettings.vue'
 
 interface NavItem {
   external?: boolean
@@ -77,6 +78,9 @@ const navList: readonly NavItem[] = [
                 {{ nav.name }}
               </span>
             </NuxtLink>
+          </li>
+          <li>
+            <ThemeSettings />
           </li>
         </ul>
       </nav>

@@ -44,7 +44,7 @@ function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, d
   let activeDelay: GsapDelayedCall | undefined
   let isActive = true
   const dotColor = getComputedStyle(dot).color
-  const activeDotColor = 'red'
+  const activeDotColor = 'var(--theme-1)'
 
   gsap.set(split.chars, {
     opacity: 1,

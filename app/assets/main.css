@@ -166,6 +166,22 @@
   --hex-fg-6: #474543;
   --hex-fg-7: #393735;
   --hex-fg-8: #2c2a28;
+  --theme-1: var(--hex-sky-1);
+  --theme-2: var(--hex-sky-2);
+  --theme-3: var(--hex-sky-3);
+  --theme-4: var(--hex-sky-4);
+  --theme-5: var(--hex-sky-5);
+  --theme-6: var(--hex-sky-6);
+  --theme-7: var(--hex-sky-7);
+  --theme-8: var(--hex-sky-8);
+  --hex-current-1: var(--theme-1);
+  --hex-current-2: var(--theme-2);
+  --hex-current-3: var(--theme-3);
+  --hex-current-4: var(--theme-4);
+  --hex-current-5: var(--theme-5);
+  --hex-current-6: var(--theme-6);
+  --hex-current-7: var(--theme-7);
+  --hex-current-8: var(--theme-8);
 }
 
 .theme-color,
@@ -445,6 +461,6 @@ button {
   color-scheme: dark;
 }
 ::selection {
-  background-color: var(--hex-fg-4);
-  color: var(--hex-bg-1);
+  background-color: var(--theme-3);
+  color: var(--hex-fg-1);
 }

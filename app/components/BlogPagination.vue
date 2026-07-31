@@ -70,7 +70,7 @@ function pageTarget(page: number) {
       <span v-if="typeof item !== 'number'" class="text-fg-5 pb-3 flex h-14 w-6 items-end justify-center" aria-hidden="true">…</span>
       <span
         v-else-if="item === currentPage"
-        class="blog-page-control text-bg-1 border-turquoise-2 bg-turquoise-2"
+        class="blog-page-control text-bg-1 border-current-2 bg-current-2"
         aria-current="page"
         :aria-label="`第 ${item} 页，当前页`"
       >
