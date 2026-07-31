@@ -46,7 +46,7 @@ categories:
 ### `typeof NaN` 为什么是 `"number"`
 
 ```js
-typeof NaN // "number"
+typeof Number.NaN // "number"
 ```
 
 `NaN` 是 `Not a Number` 的缩写，它不是一种独立的数据类型，而是 `Number` 类型中的一个特殊值，用来表示“本应得到数值，却无法得到有效数值”的结果：
@@ -64,14 +64,14 @@ Math.sqrt(-1) // NaN
 判断一个值是否真的为 `NaN`，应该使用 `Number.isNaN()`：
 
 ```js
-Number.isNaN(NaN) // true
+Number.isNaN(Number.NaN) // true
 Number.isNaN('hello') // false
 ```
 
 不要使用 `value === NaN`，因为 `NaN` 是唯一一个不等于自身的 JavaScript 值：
 
 ```js
-NaN === NaN // false
+Number.NaN === Number.NaN // false
 ```
 
 ### `9999999999999999` 为什么变成了 `10000000000000000`
@@ -127,7 +127,7 @@ Number.MAX_SAFE_INTEGER + 1 === Number.MAX_SAFE_INTEGER + 2
 
 ```js
 0.1 + 0.2 // 0.30000000000000004
-0.3       // 0.3
+0.3 // 0.3
 ```
 
 两边最终对应不同的浮点数，自然不会严格相等。问题不在 `===`，而在参与比较的数值本来就不同。
@@ -219,7 +219,7 @@ Math.min(Infinity, 3) // 3
 
 ```js
 [].toString() // ""
-[1, 2].toString() // "1,2"
+  [1, 2].toString() // "1,2"
 ```
 
 普通对象默认会得到：
@@ -243,7 +243,7 @@ Math.min(Infinity, 3) // 3
 同样的规则也解释了：
 
 ```js
-9 + '1' // "91"
+`${9}1` // "91"
 ```
 
 数字 `9` 被转换成字符串 `"9"`，随后发生拼接。
@@ -261,7 +261,7 @@ Math.min(Infinity, 3) // 3
 图中这一行尤其值得单独说明：
 
 ```js
-{} + [] // 0
+{} +[] // 0
 ```
 
 当它作为一整条语句出现在某些浏览器控制台中时，开头的 `{}` 会被解析成一个空代码块，剩下的是：
@@ -274,7 +274,7 @@ Math.min(Infinity, 3) // 3
 
 ```js
 Number([]) // 0
-+[] // 0
++ [] // 0
 ```
 
 但只要明确告诉解析器“这是一个表达式”，结果就不同：
@@ -352,9 +352,8 @@ true
 
 ```js
 !+[] + [] + ![]
-true + [] + false
-"true" + false
-"truefalse"
+true + [] + false`true${false}`
+'truefalse'
 ```
 
 `"truefalse"` 正好有 9 个字符：
