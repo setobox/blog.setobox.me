@@ -2,17 +2,16 @@ import type { Ref } from 'vue'
 import { onMounted, onScopeDispose } from 'vue'
 
 export function usePageEntrance(target: Readonly<Ref<HTMLElement | null>>): void {
-  let disposed = false
   let stopAnimation: (() => void) | undefined
+  const { gsap } = useGsap()
 
-  onMounted(async () => {
-    const shouldAnimateEntrance = isGsapReady()
-    const gsap = await loadGsap()
+  onMounted(() => {
     const root = target.value
-    if (disposed || !shouldAnimateEntrance || !gsap || !root)
+    if (!gsap || !root)
       return
 
-    const context = gsap.context(() => {
+    const media = gsap.matchMedia()
+    media.add('(prefers-reduced-motion: no-preference)', () => {
       const intro = root.querySelector<HTMLElement>('[data-page-intro]')
       const items = root.querySelectorAll<HTMLElement>('[data-page-item]')
       const timeline = gsap.timeline({
@@ -39,11 +38,10 @@ export function usePageEntrance(target: Readonly<Ref<HTMLElement | null>>): void
         }, intro ? '-=0.2' : 0)
       }
     }, root)
-    stopAnimation = () => context.revert()
+    stopAnimation = () => media.revert()
   })
 
   onScopeDispose(() => {
-    disposed = true
     stopAnimation?.()
   })
 }

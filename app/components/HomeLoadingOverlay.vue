@@ -12,6 +12,7 @@ import {
 } from 'vue'
 
 import { isNavigationFailure, NavigationFailureType } from 'vue-router'
+import { GSAP_PLUGIN_GROUPS } from '~/utils/gsap-plugins'
 
 type ReadyTask = 'page' | 'images' | 'fonts' | 'gsap'
 
@@ -47,6 +48,7 @@ const scrollLocked = useScrollLock(scrollTarget)
 const router = useRouter()
 const route = useRoute()
 const nuxtApp = useNuxtApp()
+const { gsap, loadPlugins } = useGsap()
 
 const {
   active,
@@ -84,7 +86,7 @@ function createRun(id: number): LoadingRun {
     abortController,
     aborted,
     cancelled: false,
-    gsap: null,
+    gsap,
     id,
     pageReady,
     progressFrozen: false,
@@ -286,7 +288,7 @@ async function finishVisualRun(run: LoadingRun): Promise<void> {
 
 async function settleRun(run: LoadingRun): Promise<void> {
   const pluginsReady = Promise.race([
-    loadGsapWithPlugins(),
+    loadPlugins(GSAP_PLUGIN_GROUPS.hero),
     run.aborted,
   ])
   const fontsReady = Promise.race([run.pageReady, run.aborted]).then(async () => {
@@ -307,17 +309,6 @@ async function settleRun(run: LoadingRun): Promise<void> {
     trackTask(run, 'fonts', fontsReady),
     trackTask(run, 'gsap', pluginsReady),
   ]
-
-  void Promise.race([
-    loadGsap(),
-    run.aborted.then(() => null),
-  ]).then((gsap) => {
-    if (!isCurrent(run) || !gsap)
-      return
-
-    run.gsap = gsap
-    renderProgress(run, progress.value)
-  })
 
   const allTasks = Promise.all(trackedTasks)
   const minimumElapsed = delay(run, MINIMUM_DURATION)

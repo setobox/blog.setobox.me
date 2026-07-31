@@ -26,8 +26,6 @@ export default defineNuxtConfig({
           sizes: '40x40',
           type: 'image/webp',
         },
-        { rel: 'preconnect', href: 'https://cdn.jsdelivr.net', crossorigin: '' },
-        { rel: 'dns-prefetch', href: 'https://cdn.jsdelivr.net' },
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -105,7 +103,6 @@ export default defineNuxtConfig({
   },
 
   image: {
-    domains: ['cdn.jsdelivr.net'],
     providers: {
       none: {},
     },

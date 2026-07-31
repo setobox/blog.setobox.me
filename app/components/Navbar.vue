@@ -10,28 +10,28 @@ interface NavItem {
 }
 
 const header = useTemplateRef<HTMLElement>('header')
+const { gsap } = useGsap()
 
-let disposed = false
 let stopAnimation: (() => void) | undefined
 
 const isHome = useRoute().path === '/'
 
-onMounted(async () => {
-  const shouldAnimateEntrance = isGsapReady()
-  const gsap = await loadGsap()
-  if (disposed || !shouldAnimateEntrance || !gsap || !header.value)
+onMounted(() => {
+  if (!gsap || !header.value)
     return
 
-  const tween = gsap.from(header.value, {
-    duration: 0.4,
-    autoAlpha: 0,
-    delay: isHome ? 1 : 0,
-  })
-  stopAnimation = () => tween.kill()
+  const media = gsap.matchMedia()
+  media.add('(prefers-reduced-motion: no-preference)', () => {
+    gsap.from(header.value, {
+      duration: 0.4,
+      autoAlpha: 0,
+      delay: isHome ? 1 : 0,
+    })
+  }, header.value)
+  stopAnimation = () => media.revert()
 })
 
 onScopeDispose(() => {
-  disposed = true
   stopAnimation?.()
 })
 

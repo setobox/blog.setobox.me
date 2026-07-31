@@ -1,37 +1,32 @@
 <script setup lang="ts">
-import { until, usePreferredReducedMotion } from '@vueuse/core'
+import type {
+  GSAP,
+  GSAPDelayedCall,
+  GSAPSplitText,
+  GSAPTimeline,
+} from '#shared/types/gsap'
+import { until } from '@vueuse/core'
 import { nextTick, onMounted, onUnmounted, useTemplateRef } from 'vue'
-
-type Gsap = typeof import('gsap')['gsap']
-type SplitText = typeof import('gsap/SplitText')['SplitText']
-type SplitTextInstance = ReturnType<SplitText['create']>
-type GsapTween = ReturnType<Gsap['from']>
-type GsapTimeline = ReturnType<Gsap['timeline']>
-type GsapDelayedCall = ReturnType<Gsap['delayedCall']>
+import { GSAP_PLUGIN_GROUPS } from '~/utils/gsap-plugins'
 
 const roles = ['开发者', '游戏玩家', '动画爱好者'] as const
 
 const hero = useTemplateRef<HTMLElement>('hero')
 const introElement = useTemplateRef<HTMLElement>('intro')
-const descriptionElement = useTemplateRef<HTMLElement>('description')
+const descriptionIntroElement = useTemplateRef<HTMLElement>('descriptionIntro')
 const roleElement = useTemplateRef<HTMLElement>('role')
 const dotElement = useTemplateRef<HTMLElement>('dot')
-const preferredReducedMotion = usePreferredReducedMotion()
 const route = useRoute()
+const { loadPlugins } = useGsap()
 const {
   active: homeLoadingActive,
   targetIsHome,
 } = useHomeLoading()
 
 let disposed = false
-let introSplit: SplitTextInstance | undefined
-let descriptionSplit: SplitTextInstance | undefined
-let introTween: GsapTween | undefined
-let descriptionTween: GsapTween | undefined
-let scrollTimeline: GsapTimeline | undefined
-let stopRoleLoop: (() => void) | undefined
+let stopAnimations: (() => void) | undefined
 
-function createRoleSplit(splitText: SplitText, target: HTMLElement) {
+function createRoleSplit(splitText: GSAPSplitText, target: HTMLElement) {
   return splitText.create(target, {
     type: 'words, chars',
     tag: 'span',
@@ -44,11 +39,11 @@ function getStaggeredDuration(itemCount: number, duration: number, each: number)
   return Math.max(0, (itemCount - 1) * each + duration)
 }
 
-function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, dot: HTMLElement) {
+function createRoleLoop(gsap: GSAP, splitText: GSAPSplitText, target: HTMLElement, dot: HTMLElement) {
   let roleIndex = 0
   let split = createRoleSplit(splitText, target)
-  let activeTween: GsapTimeline | undefined
-  let activeDelay: GsapDelayedCall | undefined
+  let activeTween: GSAPTimeline | undefined
+  let activeDelay: GSAPDelayedCall | undefined
   let isActive = true
   const dotColor = 'white'
   const activeDotColor = 'var(--theme-1)'
@@ -60,7 +55,7 @@ function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, d
   })
 
   gsap.set(dot, {
-    translateX: 0,
+    x: 0,
     scaleX: 1,
     transformOrigin: 'left 0',
   })
@@ -96,7 +91,7 @@ function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, d
         duration: moveDuration,
         ease: 'circ.out',
         color: dotColor,
-        translateX: -target.offsetWidth,
+        x: -target.offsetWidth,
       }, 0)
       .to(dot, {
         duration: moveDuration / 2,
@@ -163,7 +158,7 @@ function createRoleLoop(gsap: Gsap, splitText: SplitText, target: HTMLElement, d
         duration: moveDuration / 2,
         ease: 'circ.out',
         transformOrigin: '0 0',
-        translateX: 0,
+        x: 0,
         scaleX: 5,
         color: activeDotColor,
       }, 0)
@@ -205,86 +200,80 @@ async function waitForHomeLoadingExit(): Promise<boolean> {
   }
 }
 
-function prefersReducedMotion(): boolean {
-  return preferredReducedMotion.value === 'reduce'
-}
-
 onMounted(async () => {
   const readyToAnimate = await waitForHomeLoadingExit()
-  if (!readyToAnimate || prefersReducedMotion())
+  if (!readyToAnimate)
     return
 
-  const shouldAnimateEntrance = areGsapPluginsReady()
-  const runtime = await loadGsapWithPlugins()
+  const runtime = await loadPlugins(GSAP_PLUGIN_GROUPS.hero)
   if (
     disposed
     || !runtime
     || route.path !== '/'
     || !targetIsHome.value
     || homeLoadingActive.value
-    || prefersReducedMotion()
     || !hero.value
     || !introElement.value
-    || !descriptionElement.value
+    || !descriptionIntroElement.value
     || !roleElement.value
     || !dotElement.value
   ) {
     return
   }
 
+  const heroElement = hero.value
+  const intro = introElement.value
+  const descriptionIntro = descriptionIntroElement.value
+  const role = roleElement.value
+  const dot = dotElement.value
   const { gsap, SplitText } = runtime
-
-  if (shouldAnimateEntrance) {
-    introSplit = SplitText.create(introElement.value, { type: 'words, chars' })
-
-    introTween = gsap.from(introSplit.chars, {
-      duration: 0.5,
-      translateX: 10,
-      autoAlpha: 0,
-      stagger: 0.05,
-    })
-
-    descriptionSplit = SplitText.create(descriptionElement.value, {
+  const media = gsap.matchMedia()
+  media.add('(prefers-reduced-motion: no-preference)', () => {
+    const introSplit = SplitText.create(intro, { type: 'words, chars' })
+    const descriptionSplit = SplitText.create(descriptionIntro, {
       type: 'words, chars',
     })
-    descriptionTween = gsap.from(descriptionSplit.chars, {
-      duration: 0.5,
-      translateX: 10,
-      autoAlpha: 0,
-      stagger: 0.05,
-      delay: 0.5,
+    gsap.timeline({
+      defaults: {
+        duration: 0.5,
+        ease: 'power1.out',
+      },
     })
-  }
+      .from(introSplit.chars, {
+        x: 10,
+        autoAlpha: 0,
+        stagger: 0.05,
+      })
+      .from(descriptionSplit.chars, {
+        x: 10,
+        autoAlpha: 0,
+        stagger: 0.05,
+      }, 0.5)
 
-  stopRoleLoop = createRoleLoop(gsap, SplitText, roleElement.value, dotElement.value)
+    const stopRoleLoop = createRoleLoop(
+      gsap,
+      SplitText,
+      role,
+      dot,
+    )
 
-  const context = gsap.context(() => {
-    scrollTimeline = gsap.timeline({
+    gsap.timeline({
       scrollTrigger: {
-        trigger: hero.value,
+        trigger: heroElement,
         start: 'top top',
         end: 'bottom top',
         scrub: true,
       },
-    }).to('.header-link', { y: 1000, autoAlpha: 0 })
-  }, hero.value)
+    }).to('.header-link', { y: 1000, autoAlpha: 0, ease: 'none' })
 
-  const previousStopRoleLoop = stopRoleLoop
-  stopRoleLoop = () => {
-    previousStopRoleLoop?.()
-    context.revert()
-  }
+    return stopRoleLoop
+  }, heroElement)
+  stopAnimations = () => media.revert()
 })
 
 onUnmounted(() => {
   disposed = true
-  stopRoleLoop?.()
-  introTween?.kill()
-  descriptionTween?.kill()
-  scrollTimeline?.scrollTrigger?.kill()
-  scrollTimeline?.kill()
-  introSplit?.revert()
-  descriptionSplit?.revert()
+  stopAnimations?.()
 })
 </script>
 
@@ -295,8 +284,8 @@ onUnmounted(() => {
         <h2 ref="intro" class="intro" mb-4>
           <span text-6xl font-extrabold>Setobox</span>
         </h2>
-        <p ref="description" class="description" text-xl inline-flex>
-          <span>一个兴趣使然的</span>
+        <p class="description" text-xl inline-flex>
+          <span ref="descriptionIntro">一个兴趣使然的</span>
           <span ref="role" class="role">开发者</span>
           <span ref="dot" class="dot" text-xl ml-0.5>.</span>
         </p>
