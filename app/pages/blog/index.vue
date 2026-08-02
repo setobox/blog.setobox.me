@@ -62,7 +62,7 @@ async function syncCanonicalPage(page: BlogPageResponse | null | undefined): Pro
 </script>
 
 <template>
-  <div ref="pageRoot" mx-auto max-w-4xl>
+  <div ref="pageRoot" class="mx-auto px-4 max-w-6xl w-full md:px-6">
     <PageIntro title="Blog" description="记录开发、设计与持续学习中的想法和实践。" />
 
     <div
@@ -91,7 +91,7 @@ async function syncCanonicalPage(page: BlogPageResponse | null | undefined): Pro
     </p>
 
     <template v-else-if="visiblePosts.length">
-      <div class="gap-6 grid md:mt-12">
+      <div class="blog-list mt-8 gap-6 grid grid-cols-1 md:mt-12">
         <BlogCard
           v-for="post in visiblePosts"
           :key="post.id"
@@ -108,3 +108,17 @@ async function syncCanonicalPage(page: BlogPageResponse | null | undefined): Pro
     </p>
   </div>
 </template>
+
+<style scoped>
+@media (min-width: 48rem) {
+  :global(html[data-article-layout='grid'] .blog-list) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 80rem) {
+  :global(html[data-article-layout='grid'] .blog-list) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+</style>

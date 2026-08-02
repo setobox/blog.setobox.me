@@ -603,11 +603,11 @@ getCookies()方法不能指定获取某个cookie，只能获取由全部cookie�
 Cookie[] cookies = request.getCookies();
 // 判断数组是否为空
 if(cookies != null && cookies.length > 0){
-	// 遍历Cookie数组
-	for(Cookie cookie : cookies){
-		System.out.println(cookie.getName());
-		System.out.println(cookie.getValue());
-	}
+  // 遍历Cookie数组
+  for(Cookie cookie : cookies){
+    System.out.println(cookie.getName());
+    System.out.println(cookie.getValue());
+  }
 }
 ```
 

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useDateFormat } from '@vueuse/core'
+import { useDateFormat, usePreferredReducedMotion, useWindowScroll } from '@vueuse/core'
 import { computed, useTemplateRef } from 'vue'
 
 const route = useRoute()
@@ -31,6 +31,38 @@ const displayDate = useDateFormat(
   () => article.updated ?? article.date,
   'YYYY-MM-DD',
 )
+const { y } = useWindowScroll({
+  window: import.meta.client ? window : undefined,
+})
+const preferredMotion = usePreferredReducedMotion()
+const showTopAction = computed(() => y.value > 0)
+
+useActionButton({
+  id: 'article-home',
+  icon: 'i-lucide-house',
+  label: '返回博客列表',
+  order: 0,
+  async onClick() {
+    await navigateTo('/blog')
+  },
+})
+
+useActionButton({
+  id: 'article-top',
+  icon: 'i-lucide-chevron-up',
+  label: '回到页面顶部',
+  order: 1,
+  visible: showTopAction,
+  onClick() {
+    if (!import.meta.client)
+      return
+
+    window.scrollTo({
+      top: 0,
+      behavior: preferredMotion.value === 'reduce' ? 'auto' : 'smooth',
+    })
+  },
+})
 
 usePageEntrance(pageRoot)
 </script>

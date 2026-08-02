@@ -33,6 +33,7 @@ catalogs:
     eslint-plugin-format: ^2.0.1
     taze: ^19.14.1
     typescript: ^5.9.3
+    vitest: ^4.1.10
     vue-tsc: ^3.2.6
     zod: ^4.4.3
   frontend:

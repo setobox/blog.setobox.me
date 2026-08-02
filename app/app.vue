@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import AppGrainOverlay from '~/components/AppGrainOverlay.vue'
+import AppCrtFilter from '~/components/AppCrtFilter.vue'
 import HomeLoadingOverlay from '~/components/HomeLoadingOverlay.vue'
 import { appName } from '~/constants'
 import { APPEARANCE_BOOTSTRAP_SCRIPT } from '~/features/appearance/preferences'
@@ -34,5 +34,5 @@ useHead({
     </NuxtLayout>
   </div>
   <HomeLoadingOverlay />
-  <AppGrainOverlay />
+  <AppCrtFilter />
 </template>

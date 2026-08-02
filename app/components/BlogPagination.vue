@@ -53,7 +53,7 @@ function pageTarget(page: number) {
       :to="pageTarget(currentPage - 1)"
     >
       <a
-        class="blog-page-control text-fg-3 border-fg-7 bg-bg-2 hover:text-fg-1 hover:border-fg-5 hover:-translate-y-0.5"
+        class="blog-page-control blog-page-control--interactive"
         :href="href"
         rel="prev"
         aria-label="上一页"
@@ -62,7 +62,7 @@ function pageTarget(page: number) {
         <span class="i-lucide-chevron-left text-2xl" aria-hidden="true" />
       </a>
     </NuxtLink>
-    <span v-else class="blog-page-control text-fg-6 border-fg-8 bg-bg-2 cursor-not-allowed" aria-disabled="true">
+    <span v-else class="blog-page-control blog-page-control--disabled" aria-disabled="true">
       <span class="i-lucide-chevron-left text-2xl" aria-hidden="true" />
     </span>
 
@@ -70,7 +70,7 @@ function pageTarget(page: number) {
       <span v-if="typeof item !== 'number'" class="text-fg-5 pb-3 flex h-14 w-6 items-end justify-center" aria-hidden="true">…</span>
       <span
         v-else-if="item === currentPage"
-        class="blog-page-control text-bg-1 border-current-2 bg-current-2"
+        class="blog-page-control blog-page-control--current"
         aria-current="page"
         :aria-label="`第 ${item} 页，当前页`"
       >
@@ -83,7 +83,7 @@ function pageTarget(page: number) {
         :to="pageTarget(item)"
       >
         <a
-          class="blog-page-control text-fg-3 border-fg-7 bg-bg-2 hover:text-fg-1 hover:border-fg-5 hover:-translate-y-0.5"
+          class="blog-page-control blog-page-control--interactive"
           :href="href"
           :aria-label="`第 ${item} 页`"
           @click="navigate"
@@ -100,7 +100,7 @@ function pageTarget(page: number) {
       :to="pageTarget(currentPage + 1)"
     >
       <a
-        class="blog-page-control text-fg-3 border-fg-7 bg-bg-2 hover:text-fg-1 hover:border-fg-5 hover:-translate-y-0.5"
+        class="blog-page-control blog-page-control--interactive"
         :href="href"
         rel="next"
         aria-label="下一页"
@@ -109,8 +109,61 @@ function pageTarget(page: number) {
         <span class="i-lucide-chevron-right text-2xl" aria-hidden="true" />
       </a>
     </NuxtLink>
-    <span v-else class="blog-page-control text-fg-6 border-fg-8 bg-bg-2 cursor-not-allowed" aria-disabled="true">
+    <span v-else class="blog-page-control blog-page-control--disabled" aria-disabled="true">
       <span class="i-lucide-chevron-right text-2xl" aria-hidden="true" />
     </span>
   </nav>
 </template>
+
+<style scoped>
+.blog-page-control {
+  display: inline-flex;
+  width: 3.5rem;
+  height: 3.5rem;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid;
+  border-radius: 0.75rem;
+  font-family: 'DM Mono', monospace;
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+  font-variant-numeric: tabular-nums;
+  text-decoration: none;
+  box-shadow: 0 0.625rem 1.5rem rgb(0 0 0 / 18%);
+  transition:
+    border-color 150ms,
+    background-color 150ms,
+    color 150ms,
+    transform 150ms;
+}
+
+.blog-page-control:focus-visible {
+  outline: 2px solid var(--hex-fg-3);
+  outline-offset: 2px;
+}
+
+.blog-page-control--interactive {
+  border-color: var(--hex-fg-7);
+  background: var(--hex-bg-2);
+  color: var(--hex-fg-3);
+}
+
+.blog-page-control--interactive:hover {
+  border-color: var(--hex-fg-5);
+  color: var(--hex-fg-1);
+  transform: translateY(-0.125rem);
+}
+
+.blog-page-control--current {
+  border-color: var(--hex-current-2);
+  background: var(--hex-current-2);
+  color: var(--hex-bg-1);
+}
+
+.blog-page-control--disabled {
+  cursor: not-allowed;
+  border-color: var(--hex-fg-8);
+  background: var(--hex-bg-2);
+  color: var(--hex-fg-6);
+}
+</style>

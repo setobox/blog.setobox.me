@@ -10,6 +10,7 @@
     "preview": "nuxt preview",
     "start": "node .output/server/index.mjs",
     "start:generate": "npx serve .output/public",
+    "test": "vitest run",
     "lint": "eslint .",
     "typecheck": "nuxt typecheck"
   },
@@ -42,6 +43,7 @@
     "taze": "catalog:dev",
     "typescript": "catalog:dev",
     "unocss": "catalog:build",
+    "vitest": "catalog:dev",
     "vue": "catalog:frontend",
     "vue-tsc": "catalog:dev",
     "zod": "catalog:dev"

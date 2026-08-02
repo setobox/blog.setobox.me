@@ -21,11 +21,11 @@ export const THEME_PRESETS = [
 ] as const
 
 export const CUSTOM_THEME_MIX_PERCENTAGES = [82, 55, 45, 35, 25, 15, 7] as const
-export const GRAIN_LAYERS = ['background', 'content', 'top'] as const
+export const ARTICLE_LAYOUTS = ['list', 'grid'] as const
 
 export type ThemePreset = typeof THEME_PRESETS[number]['name']
 export type ThemePresetOption = typeof THEME_PRESETS[number]
-export type GrainLayer = typeof GRAIN_LAYERS[number]
+export type ArticleLayout = typeof ARTICLE_LAYOUTS[number]
 
 export interface PresetAccentSelection {
   mode: 'preset'
@@ -41,14 +41,16 @@ export type AccentSelection = CustomAccentSelection | PresetAccentSelection
 
 export interface AppearancePreferences {
   accent: AccentSelection
-  grainEnabled: boolean
-  grainLayer: GrainLayer
+  articleLayout: ArticleLayout
+  cardBorders: boolean
+  cardThemeTint: boolean
+  visualFilterEnabled: boolean
 }
 
 const DEFAULT_PRESET: ThemePreset = 'sky'
 const DEFAULT_HUE = THEME_PRESETS.find(({ name }) => name === DEFAULT_PRESET)?.hue ?? 298
 const themePresetNames = new Set<string>(THEME_PRESETS.map(({ name }) => name))
-const grainLayers = new Set<string>(GRAIN_LAYERS)
+const articleLayouts = new Set<string>(ARTICLE_LAYOUTS)
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -58,8 +60,8 @@ export function isThemePreset(value: unknown): value is ThemePreset {
   return typeof value === 'string' && themePresetNames.has(value)
 }
 
-export function isGrainLayer(value: unknown): value is GrainLayer {
-  return typeof value === 'string' && grainLayers.has(value)
+export function isArticleLayout(value: unknown): value is ArticleLayout {
+  return typeof value === 'string' && articleLayouts.has(value)
 }
 
 export function clampHue(value: unknown): number {
@@ -76,8 +78,10 @@ export function createDefaultAppearancePreferences(): AppearancePreferences {
       mode: 'preset',
       preset: DEFAULT_PRESET,
     },
-    grainEnabled: false,
-    grainLayer: 'top',
+    articleLayout: 'list',
+    cardBorders: true,
+    cardThemeTint: false,
+    visualFilterEnabled: false,
   }
 }
 
@@ -105,12 +109,20 @@ export function sanitizeAppearancePreferences(value: unknown): AppearancePrefere
 
   return {
     accent,
-    grainEnabled: typeof value.grainEnabled === 'boolean'
-      ? value.grainEnabled
-      : defaults.grainEnabled,
-    grainLayer: isGrainLayer(value.grainLayer)
-      ? value.grainLayer
-      : defaults.grainLayer,
+    articleLayout: isArticleLayout(value.articleLayout)
+      ? value.articleLayout
+      : defaults.articleLayout,
+    cardBorders: typeof value.cardBorders === 'boolean'
+      ? value.cardBorders
+      : defaults.cardBorders,
+    cardThemeTint: typeof value.cardThemeTint === 'boolean'
+      ? value.cardThemeTint
+      : defaults.cardThemeTint,
+    visualFilterEnabled: typeof value.visualFilterEnabled === 'boolean'
+      ? value.visualFilterEnabled
+      : typeof value.grainEnabled === 'boolean'
+        ? value.grainEnabled
+        : defaults.visualFilterEnabled,
   }
 }
 
@@ -154,19 +166,23 @@ export function applyAppearancePreferences(
   preferences: AppearancePreferences,
 ): void {
   applyAccentSelection(root, preferences.accent)
-  root.dataset.grainEnabled = String(preferences.grainEnabled)
-  root.dataset.grainLayer = preferences.grainLayer
+  root.dataset.articleLayout = preferences.articleLayout
+  root.dataset.cardBorders = String(preferences.cardBorders)
+  root.dataset.cardThemeTint = String(preferences.cardThemeTint)
+  root.dataset.visualFilterEnabled = String(preferences.visualFilterEnabled)
+  delete root.dataset.grainEnabled
+  delete root.dataset.grainLayer
 }
 
 const bootstrapPresetNames = JSON.stringify(THEME_PRESETS.map(({ name }) => name))
 const bootstrapMixPercentages = JSON.stringify(CUSTOM_THEME_MIX_PERCENTAGES)
-const bootstrapGrainLayers = JSON.stringify(GRAIN_LAYERS)
+const bootstrapArticleLayouts = JSON.stringify(ARTICLE_LAYOUTS)
 
 export const APPEARANCE_BOOTSTRAP_SCRIPT = `(() => {
   const root = document.documentElement
   const presets = new Set(${bootstrapPresetNames})
   const mixes = ${bootstrapMixPercentages}
-  const grainLayers = new Set(${bootstrapGrainLayers})
+  const articleLayouts = new Set(${bootstrapArticleLayouts})
   const clampHue = value => {
     const hue = Number(value)
     return Number.isFinite(hue) ? Math.min(360, Math.max(0, Math.round(hue))) : 298
@@ -193,8 +209,10 @@ export const APPEARANCE_BOOTSTRAP_SCRIPT = `(() => {
   }
   let preferences = {
     accent: { mode: 'preset', preset: 'sky' },
-    grainEnabled: false,
-    grainLayer: 'top',
+    articleLayout: 'list',
+    cardBorders: true,
+    cardThemeTint: false,
+    visualFilterEnabled: false,
   }
   try {
     const raw = localStorage.getItem('${APPEARANCE_STORAGE_KEY}')
@@ -204,13 +222,23 @@ export const APPEARANCE_BOOTSTRAP_SCRIPT = `(() => {
       preferences.accent = { mode: 'preset', preset: candidate.preset }
     else if (candidate && candidate.mode === 'custom')
       preferences.accent = { mode: 'custom', hue: clampHue(candidate.hue) }
-    if (stored && typeof stored.grainEnabled === 'boolean')
-      preferences.grainEnabled = stored.grainEnabled
-    if (stored && grainLayers.has(stored.grainLayer))
-      preferences.grainLayer = stored.grainLayer
+    if (stored && articleLayouts.has(stored.articleLayout))
+      preferences.articleLayout = stored.articleLayout
+    if (stored && typeof stored.cardBorders === 'boolean')
+      preferences.cardBorders = stored.cardBorders
+    if (stored && typeof stored.cardThemeTint === 'boolean')
+      preferences.cardThemeTint = stored.cardThemeTint
+    if (stored && typeof stored.visualFilterEnabled === 'boolean')
+      preferences.visualFilterEnabled = stored.visualFilterEnabled
+    else if (stored && typeof stored.grainEnabled === 'boolean')
+      preferences.visualFilterEnabled = stored.grainEnabled
   }
   catch {}
   apply(preferences.accent)
-  root.dataset.grainEnabled = String(preferences.grainEnabled)
-  root.dataset.grainLayer = preferences.grainLayer
+  root.dataset.articleLayout = preferences.articleLayout
+  root.dataset.cardBorders = String(preferences.cardBorders)
+  root.dataset.cardThemeTint = String(preferences.cardThemeTint)
+  root.dataset.visualFilterEnabled = String(preferences.visualFilterEnabled)
+  delete root.dataset.grainEnabled
+  delete root.dataset.grainLayer
 })()`

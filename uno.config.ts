@@ -56,8 +56,6 @@ export default defineConfig({
     ['color-soft', 'text-ui-text-soft'],
     ['flex-center', 'flex items-center justify-center'],
     ['home-container', 'mx-auto w-full max-w-1500px px-4 md:px-8 lg:px-16'],
-    ['blog-card', 'grid overflow-hidden rounded-xl bg-bg-2 shadow-[0_12px_36px_rgba(0,0,0,0.16)] transition-[transform,box-shadow] duration-200 hover:-translate-y-0.5 hover:shadow-[0_16px_44px_rgba(0,0,0,0.22)] sm:grid-cols-[minmax(0,1.15fr)_minmax(15rem,0.85fr)]'],
-    ['blog-page-control', 'inline-flex h-14 w-14 items-center justify-center rounded-xl border font-mono text-lg no-underline tabular-nums shadow-[0_10px_24px_rgba(0,0,0,0.18)] transition-[border-color,background-color,color,transform] duration-150 focus-visible:outline-2 focus-visible:outline-fg-3 focus-visible:outline-offset-2'],
     ['section-label', 'm-0 font-mono text-11px tracking-0.16em text-ui-text-mute'],
     ['text-link', 'cursor-pointer transition-colors duration-150 ease-in-out'],
     ['container', 'mx-auto max-w-1500px w-full'],

@@ -6,6 +6,15 @@ import EffectsSettingsPanel from './EffectsSettingsPanel.vue'
 
 type SettingsTab = 'appearance' | 'effects'
 
+const settingsTabs: readonly {
+  icon: `i-lucide-${string}`
+  label: string
+  value: SettingsTab
+}[] = [
+  { icon: 'i-lucide-palette', label: '外观', value: 'appearance' },
+  { icon: 'i-lucide-sparkles', label: '特效', value: 'effects' },
+]
+
 const settingsRoot = useTemplateRef<HTMLElement>('settingsRoot')
 const settingsTrigger = useTemplateRef<HTMLButtonElement>('settingsTrigger')
 const settingsPanel = useTemplateRef<HTMLElement>('settingsPanel')
@@ -13,16 +22,20 @@ const isOpen = shallowRef(false)
 const activeTab = shallowRef<SettingsTab>('appearance')
 
 const {
+  accentIsDefault,
+  articleLayout,
+  cardBorders,
+  cardThemeTint,
   currentHue,
-  grainEnabled,
-  grainLayer,
-  presets,
   resetAccent,
-  selectedPreset,
-  setGrainEnabled,
-  setGrainLayer,
+  resetArticleLayout,
+  resetCardStyle,
+  setArticleLayout,
+  setCardBorders,
+  setCardThemeTint,
   setHue,
-  setPreset,
+  setVisualFilterEnabled,
+  visualFilterEnabled,
 } = useAppearancePreferences()
 
 function closeSettings(restoreFocus = false): void {
@@ -63,17 +76,19 @@ function selectTab(tab: SettingsTab, focus = false): void {
 }
 
 function handleTabKeydown(event: KeyboardEvent, currentTab: SettingsTab): void {
-  let nextTab: SettingsTab | undefined
+  const currentIndex = settingsTabs.findIndex(tab => tab.value === currentTab)
+  let nextIndex: number | undefined
 
   if (event.key === 'ArrowRight' || event.key === 'ArrowDown')
-    nextTab = currentTab === 'appearance' ? 'effects' : 'appearance'
+    nextIndex = (currentIndex + 1) % settingsTabs.length
   else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp')
-    nextTab = currentTab === 'appearance' ? 'effects' : 'appearance'
+    nextIndex = (currentIndex - 1 + settingsTabs.length) % settingsTabs.length
   else if (event.key === 'Home')
-    nextTab = 'appearance'
+    nextIndex = 0
   else if (event.key === 'End')
-    nextTab = 'effects'
+    nextIndex = settingsTabs.length - 1
 
+  const nextTab = nextIndex === undefined ? undefined : settingsTabs[nextIndex]?.value
   if (!nextTab)
     return
 
@@ -95,103 +110,78 @@ onKeyStroke('Escape', (event) => {
   <div ref="settingsRoot" class="relative">
     <button
       ref="settingsTrigger"
-      class="text-fg-3 font-bold border-0 bg-transparent inline-flex gap-2 h-11 w-10 cursor-pointer transition-colors duration-150 items-center justify-center hover:text-current-1 md:px-1 focus-visible:outline-2 focus-visible:outline-current-1 focus-visible:outline-offset-2 md:w-auto"
-      :class="{ 'text-current-1': isOpen }"
+      class="theme-settings-trigger text-xl text-fg-3 p-0 border-0 bg-transparent inline-flex h-11 w-10 cursor-pointer transition-[color,background-color] duration-150 items-center justify-center hover:text-current-1"
+      :class="{ '!rounded-2.5 !bg-[var(--theme-7)] !text-current-1': isOpen }"
       type="button"
       aria-label="外观设置"
       aria-haspopup="dialog"
       :aria-expanded="isOpen"
-      aria-controls="theme-settings-panel"
+      aria-controls="display-setting"
       @click="toggleSettings"
     >
-      <span class="i-lucide-palette text-xl" aria-hidden="true" />
+      <span class="i-lucide-palette" aria-hidden="true" />
     </button>
 
     <section
-      v-if="isOpen"
-      id="theme-settings-panel"
+      id="display-setting"
       ref="settingsPanel"
-      class="text-fg-1 border border-fg-7 rounded-3xl bg-bg-1 w-[min(26rem,calc(100vw-2rem))] shadow-[0_24px_70px_rgba(0,0,0,0.46)] [background:linear-gradient(145deg,rgb(255_255_255_/_3%),transparent_45%),color-mix(in_oklch,var(--hex-bg-1)_93%,black)] right-0 top-[calc(100%+0.65rem)] absolute z-200 overflow-hidden"
+      class="text-fg-2 border border-[color-mix(in_srgb,var(--hex-fg-1)_10%,transparent)] rounded-xl bg-[color-mix(in_srgb,var(--hex-bg-1)_82%,transparent)] opacity-0 max-h-[min(80vh,28rem)] w-[min(17rem,calc(100vw-1.5rem))] pointer-events-none shadow-[0_0.4rem_1.2rem_rgba(0,0,0,0.26)] origin-top-right translate-y--1 scale-98 transition-[opacity,transform] duration-160 right-0 top-[calc(100%+0.4rem)] absolute z-200 overflow-x-hidden overflow-y-auto backdrop-blur-3 motion-reduce:transition-none"
+      :class="{ '!scale-100 !translate-y-0 !opacity-100 !pointer-events-auto': isOpen }"
       role="dialog"
       aria-label="外观设置"
+      :aria-hidden="!isOpen"
+      :inert="!isOpen"
     >
-      <header class="pr-3 border-b border-fg-7 flex items-center justify-between">
-        <div class="flex min-w-0 self-stretch" role="tablist" aria-label="外观设置分类">
-          <button
-            id="appearance-settings-tab"
-            class="text-fg-4 font-bold px-5 py-4 border-0 bg-transparent inline-flex gap-[0.55rem] cursor-pointer transition-colors duration-150 items-center relative hover:text-fg-2 focus-visible:outline-2 focus-visible:outline-current-1 focus-visible:outline-offset-2"
-            :class="{ 'text-current-1': activeTab === 'appearance' }"
-            type="button"
-            role="tab"
-            :aria-selected="activeTab === 'appearance'"
-            aria-controls="appearance-settings-panel"
-            :tabindex="activeTab === 'appearance' ? 0 : -1"
-            @click="selectTab('appearance')"
-            @keydown="handleTabKeydown($event, 'appearance')"
-          >
-            <span class="i-lucide-palette" aria-hidden="true" />
-            <span>外观</span>
-            <span
-              v-if="activeTab === 'appearance'"
-              class="rounded-t-full bg-current-1 h-0.5 left-5 right-5 absolute -bottom-px"
-              aria-hidden="true"
-            />
-          </button>
-          <button
-            id="effects-settings-tab"
-            class="text-fg-4 font-bold px-5 py-4 border-0 bg-transparent inline-flex gap-[0.55rem] cursor-pointer transition-colors duration-150 items-center relative hover:text-fg-2 focus-visible:outline-2 focus-visible:outline-current-1 focus-visible:outline-offset-2"
-            :class="{ 'text-current-1': activeTab === 'effects' }"
-            type="button"
-            role="tab"
-            :aria-selected="activeTab === 'effects'"
-            aria-controls="effects-settings-panel"
-            :tabindex="activeTab === 'effects' ? 0 : -1"
-            @click="selectTab('effects')"
-            @keydown="handleTabKeydown($event, 'effects')"
-          >
-            <span class="i-lucide-sparkles" aria-hidden="true" />
-            <span>特效</span>
-            <span
-              v-if="activeTab === 'effects'"
-              class="rounded-t-full bg-current-1 h-0.5 left-5 right-5 absolute -bottom-px"
-              aria-hidden="true"
-            />
-          </button>
-        </div>
+      <div class="mx-1.5 border-b border-fg-7 flex" role="tablist" aria-label="外观设置分类">
         <button
-          class="text-fg-3 border-0 rounded-full bg-transparent inline-flex h-9 w-9 cursor-pointer transition-[color,background-color] duration-150 items-center justify-center hover:text-fg-1 focus-visible:outline-2 focus-visible:outline-current-1 focus-visible:outline-offset-2 hover:bg-bg-4"
+          v-for="tab in settingsTabs"
+          :id="`${tab.value}-settings-tab`"
+          :key="tab.value"
+          class="theme-settings-tab text-xs text-fg-4 leading-4 font-semibold py-1.5 border-0 bg-transparent inline-flex flex-1 gap-1 min-w-0 cursor-pointer transition-colors duration-150 items-center justify-center relative hover:text-fg-2"
+          :class="{ '!text-current-1': activeTab === tab.value }"
           type="button"
-          aria-label="关闭外观设置"
-          @click="closeSettings(true)"
+          role="tab"
+          :aria-selected="activeTab === tab.value"
+          :aria-controls="`${tab.value}-settings-panel`"
+          :tabindex="activeTab === tab.value ? 0 : -1"
+          @click="selectTab(tab.value)"
+          @keydown="handleTabKeydown($event, tab.value)"
         >
-          <span class="i-lucide-x" aria-hidden="true" />
+          <span :class="tab.icon" aria-hidden="true" />
+          <span>{{ tab.label }}</span>
         </button>
-      </header>
+      </div>
 
-      <div class="p-5">
-        <div
+      <div class="px-2 pb-2 pt-1.5">
+        <AppearanceThemePanel
           v-show="activeTab === 'appearance'"
-          id="appearance-settings-panel"
-          role="tabpanel"
-          aria-labelledby="appearance-settings-tab"
-        >
-          <AppearanceThemePanel
-            :hue="currentHue"
-            :presets="presets"
-            :selected-preset="selectedPreset"
-            @reset="resetAccent"
-            @select-preset="setPreset"
-            @update-hue="setHue"
-          />
-        </div>
+          :accent-is-default="accentIsDefault"
+          :article-layout="articleLayout"
+          :card-borders="cardBorders"
+          :card-theme-tint="cardThemeTint"
+          :hue="currentHue"
+          @reset-accent="resetAccent"
+          @reset-article-layout="resetArticleLayout"
+          @reset-card-style="resetCardStyle"
+          @set-article-layout="setArticleLayout"
+          @set-card-borders="setCardBorders"
+          @set-card-theme-tint="setCardThemeTint"
+          @update-hue="setHue"
+        />
         <EffectsSettingsPanel
           v-show="activeTab === 'effects'"
-          :enabled="grainEnabled"
-          :layer="grainLayer"
-          @set-enabled="setGrainEnabled"
-          @set-layer="setGrainLayer"
+          :enabled="visualFilterEnabled"
+          @set-enabled="setVisualFilterEnabled"
         />
       </div>
     </section>
   </div>
 </template>
+
+<style scoped>
+.theme-settings-trigger:focus-visible,
+.theme-settings-tab:focus-visible {
+  outline: 2px solid var(--theme-1);
+  outline-offset: 2px;
+}
+</style>
