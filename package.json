@@ -15,6 +15,7 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
+    "@giscus/vue": "catalog:frontend",
     "three": "catalog:frontend",
     "wrangler": "catalog:build"
   },

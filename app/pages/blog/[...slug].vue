@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Giscus from '@giscus/vue'
 import { useDateFormat, usePreferredReducedMotion, useWindowScroll } from '@vueuse/core'
 import { computed, useTemplateRef } from 'vue'
 
@@ -106,14 +107,23 @@ usePageEntrance(pageRoot)
         />
       </div>
 
-      <NuxtLink
-        data-page-item
-        class="text-sm text-fg-2 font-mono mt-12 px-4 py-3 border border-fg-7 no-underline inline-flex gap-2 transition-colors duration-150 items-center hover:text-fg-1 focus-visible:outline-2 focus-visible:outline-fg-3 focus-visible:outline-offset-2 hover:border-fg-5"
-        to="/blog"
-      >
-        <span class="i-lucide-arrow-left" aria-hidden="true" />
-        返回文章列表
-      </NuxtLink>
+      <ClientOnly>
+        <Giscus
+          id="comments"
+          repo="setobox/giscus.setobox.me"
+          repo-id="R_kgDOTr3Vsg"
+          category="Announcements"
+          category-id="DIC_kwDOTr3Vss4DCi6X"
+          mapping="pathname"
+          term="Welcome to @giscus/vue component!"
+          reactions-enabled="1"
+          emit-metadata="0"
+          input-position="top"
+          theme="gruvbox_dark"
+          lang="zh-CN"
+          loading="lazy"
+        />
+      </ClientOnly>
     </article>
   </div>
 </template>
