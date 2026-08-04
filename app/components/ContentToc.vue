@@ -188,7 +188,7 @@ const circuitMaskStyle = computed<CSSProperties | undefined>(() => {
     height: `${flattenedLinks.length * linkHeight}rem`,
     maskImage,
     WebkitMaskImage: maskImage,
-    width: '0.75rem',
+    width: '0.74rem',
   }
 })
 
