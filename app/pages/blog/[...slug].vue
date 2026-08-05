@@ -76,6 +76,7 @@ usePageEntrance(pageRoot)
       <ContentToc
         highlight
         highlight-variant="circuit"
+        :title="article.title"
         :links="tocLinks"
       />
     </aside>
