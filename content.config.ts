@@ -7,6 +7,7 @@ const PostSchema = z.object({
   date: z.date(),
   updated: z.date().optional(),
   cover: z.string().optional(),
+  minutes: z.number().int().positive().optional(),
   tags: z.array(z.string()).optional(),
   categories: z.array(z.string()).optional(),
   pin: z.union([z.boolean(), z.number()]).optional(),

@@ -1,5 +1,6 @@
 import type { FileAfterParseHook } from '@nuxt/content'
 import { appDescription } from './app/constants/index'
+import { resolveReadingMinutes } from './shared/utils/reading-time'
 
 export default defineNuxtConfig({
   modules: [
@@ -90,13 +91,19 @@ export default defineNuxtConfig({
     },
   },
   hooks: {
-    'content:file:afterParse': ({ collection, content }: FileAfterParseHook) => {
+    'content:file:afterParse': ({ collection, content, file }: FileAfterParseHook) => {
       if (collection.name !== 'blog')
         return
 
       content.pin = typeof content.pin === 'number' && Number.isFinite(content.pin)
         ? content.pin
         : content.pin === true ? 1 : undefined
+
+      const minutes = content.minutes
+      content.minutes = resolveReadingMinutes(
+        file.body,
+        typeof minutes === 'number' ? minutes : undefined,
+      )
     },
   },
 

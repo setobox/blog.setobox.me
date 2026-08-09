@@ -2,6 +2,7 @@
 import Giscus from '@giscus/vue'
 import { useDateFormat, usePreferredReducedMotion, useWindowScroll } from '@vueuse/core'
 import { computed, useTemplateRef } from 'vue'
+import { siteUrl } from '~/constants'
 
 const route = useRoute()
 const slugParam = route.params.slug
@@ -26,12 +27,14 @@ if (!post.value) {
 }
 
 const article = post.value
+const permalink = new URL(route.path, siteUrl).href
 const pageRoot = useTemplateRef<HTMLElement>('pageRoot')
 const tocLinks = computed(() => article.body?.toc?.links ?? [])
 const displayDate = useDateFormat(
   () => article.updated ?? article.date,
   'YYYY-MM-DD',
 )
+const readingMinutes = computed(() => article.minutes ?? 1)
 const { y } = useWindowScroll({
   window: import.meta.client ? window : undefined,
 })
@@ -83,47 +86,47 @@ usePageEntrance(pageRoot)
     </aside>
 
     <article class="min-w-0">
-      <NuxtLink
+      <BlogArticleHeader
+        :categories="article.categories"
+        :cover="article.cover"
+        :date-time="article.updated ?? article.date"
+        :display-date="displayDate"
+        :minutes="readingMinutes"
+        :tags="article.tags"
+        :title="article.title"
+      />
+
+      <ContentRenderer
         data-page-item
-        class="text-sm text-fg-3 font-mono mb-8 no-underline inline-flex gap-2 transition-colors duration-150 items-center hover:text-fg-1 focus-visible:outline-2 focus-visible:outline-fg-3 focus-visible:outline-offset-2"
-        to="/blog"
-      >
-        <span class="i-lucide-arrow-left" aria-hidden="true" />
-        Blog
-      </NuxtLink>
+        :value="article"
+        class="article-content mt-10 max-w-none prose prose-invert prose-a:text-fg-1 prose-code:text-fg-2 prose-headings:text-fg-1 prose-li:text-fg-3 prose-p:text-fg-3 prose-strong:text-fg-1 md:mt-12 prose-pre:border prose-pre:border-fg-7 prose-pre:bg-bg-2 prose-a:decoration-fg-5 prose-headings:scroll-mt-8"
+      />
 
-      <PageIntro :title="article.title" :description="article.description" />
-
-      <div data-page-item class="text-xs text-fg-4 font-mono mt-5 flex flex-wrap gap-x-5 gap-y-2 tabular-nums">
-        <time :datetime="article.updated ?? article.date">
-          UPDATED {{ displayDate }}
-        </time>
+      <div data-page-item class="mt-12 md:mt-16">
+        <ClientOnly>
+          <Giscus
+            id="comments"
+            repo="setobox/giscus.setobox.me"
+            repo-id="R_kgDOTr3Vsg"
+            category="Announcements"
+            category-id="DIC_kwDOTr3Vss4DCi6X"
+            mapping="pathname"
+            term="Welcome to @giscus/vue component!"
+            reactions-enabled="1"
+            emit-metadata="0"
+            input-position="top"
+            theme="gruvbox_dark"
+            lang="zh-CN"
+            loading="lazy"
+          />
+        </ClientOnly>
       </div>
-
-      <div data-page-item class="mt-10 pt-10 border-t border-fg-7 md:mt-12 md:pt-12">
-        <ContentRenderer
-          :value="article"
-          class="max-w-none prose prose-invert prose-a:text-fg-1 prose-code:text-fg-2 prose-headings:text-fg-1 prose-li:text-fg-3 prose-p:text-fg-3 prose-strong:text-fg-1 prose-pre:border prose-pre:border-fg-7 prose-pre:bg-bg-2 prose-a:decoration-fg-5 prose-headings:scroll-mt-8"
-        />
-      </div>
-
-      <ClientOnly>
-        <Giscus
-          id="comments"
-          repo="setobox/giscus.setobox.me"
-          repo-id="R_kgDOTr3Vsg"
-          category="Announcements"
-          category-id="DIC_kwDOTr3Vss4DCi6X"
-          mapping="pathname"
-          term="Welcome to @giscus/vue component!"
-          reactions-enabled="1"
-          emit-metadata="0"
-          input-position="top"
-          theme="gruvbox_dark"
-          lang="zh-CN"
-          loading="lazy"
-        />
-      </ClientOnly>
     </article>
   </div>
 </template>
+
+<style scoped>
+:deep(.article-content > :first-child) {
+  margin-top: 0;
+}
+</style>
