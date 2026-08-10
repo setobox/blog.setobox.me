@@ -102,6 +102,14 @@ usePageEntrance(pageRoot)
         class="article-content mt-10 max-w-none prose prose-invert prose-a:text-fg-1 prose-code:text-fg-2 prose-headings:text-fg-1 prose-li:text-fg-3 prose-p:text-fg-3 prose-strong:text-fg-1 md:mt-12 prose-pre:border prose-pre:border-fg-7 prose-pre:bg-bg-2 prose-a:decoration-fg-5 prose-headings:scroll-mt-8"
       />
 
+      <ArticleCopyright
+        data-page-item
+        class="mt-12 md:mt-16"
+        :permalink="permalink"
+        :published-at="article.date"
+        :title="article.title"
+      />
+
       <div data-page-item class="mt-12 md:mt-16">
         <ClientOnly>
           <Giscus
