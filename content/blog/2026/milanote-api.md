@@ -4,7 +4,13 @@ description: '本文将介绍如何使用 Milanote API。'
 date: 2026-07-22
 update: 2026-07-23
 cover: ''
+tags:
+ - 'Milanote'
+ - 'API'
+categories:
+ - '工具'
 ---
+
 ## 引言
 
 我使用 Milanote 已经有一段时间了，它的自由画布和卡片式布局让我能够轻松地整理我的创意项目和收藏。此时我想在别处使用 Milanote 的内容，又不想手动维护，于是乎便有了这个项目。
@@ -13,15 +19,15 @@ cover: ''
 
 ## RoadMap
 
-- [X]  根据分享的 Board 得到完整 API 数据
-- [X]  解析 Board 数据，得到卡片内容和布局信息
-- [X]  做一个简单的示例项目 Playground，提供一个在线的可视化界面，展示 Board 的内容
-- [X]  部署到 Cloudflare Workers
-- [X]  提供字段筛选功能
+- [x] 根据分享的 Board 得到完整 API 数据
+- [x] 解析 Board 数据，得到卡片内容和布局信息
+- [x] 做一个简单的示例项目 Playground，提供一个在线的可视化界面，展示 Board 的内容
+- [x] 部署到 Cloudflare Workers
+- [x] 提供字段筛选功能
 
 TODO：
 
-- [ ]  改成无需在 Cloudflare 中添加密钥，根据 url 中 param 参数在线解析 Board 内容。
+- [ ] 改成无需在 Cloudflare 中添加密钥，根据 url 中 param 参数在线解析 Board 内容。
 
 ## 一、获取分享链接
 
