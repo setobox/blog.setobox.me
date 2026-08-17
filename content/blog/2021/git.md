@@ -215,8 +215,6 @@ git rebase -i HEAD~4
 git rebase -i --root
 ```
 
-关于安全边界、冲突处理和完整示例，可继续阅读 [Git 进阶：用 rebase 整理提交历史](/blog/2023/git-advanced)。
-
 ### 如何取消暂存？
 
 让暂存区中的指定文件恢复为 `HEAD` 中的状态，但保留工作区改动：
