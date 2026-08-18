@@ -1,0 +1,15 @@
+@font-face {
+  font-family: 'AaZongYiYuan';
+  src: url('/fonts/aa-zongyiyuan.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Monaspace Krypton';
+  src: url('/fonts/monaspace-krypton-var.woff2') format('woff2');
+  font-weight: 200 800;
+  font-style: normal;
+  font-display: swap;
+}

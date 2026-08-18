@@ -1,0 +1,125 @@
+.prose.prose {
+  --un-prose-body: #b8c2ce;
+  --un-prose-headings: #f2f5f8;
+  --un-prose-lead: #b8c2ce;
+  --un-prose-links: #ff5a7a;
+  --un-prose-bold: #f2f5f8;
+  --un-prose-counters: #8a96a4;
+  --un-prose-bullets: #5a6674;
+  --un-prose-hr: #1d232a;
+  --un-prose-quotes: #dde3ea;
+  --un-prose-quote-borders: #ff5a7a;
+  --un-prose-captions: #8a96a4;
+  --un-prose-kbd: #dde3ea;
+  --un-prose-code: #dde3ea;
+  --un-prose-pre-code: inherit;
+  --un-prose-pre-bg: #0f1216;
+  --un-prose-th-borders: #2a323c;
+  --un-prose-td-borders: #1d232a;
+
+  font-size: 1rem;
+  line-height: 1.75;
+  max-width: none;
+}
+
+.prose h2:not(:where(.not-prose, .not-prose *)) {
+  font-family:
+    'Space Grotesk', 'Space Grotesk Fallback', 'PingFang SC', 'HarmonyOS Sans SC', 'MiSans', 'Source Han Sans SC',
+    'Noto Sans CJK SC', 'Microsoft YaHei', 'WenQuanYi Micro Hei', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 500;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.prose h3:not(:where(.not-prose, .not-prose *)) {
+  font-size: 1.25rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+
+.prose h4:not(:where(.not-prose, .not-prose *)) {
+  font-size: 1.125rem;
+  font-weight: 600;
+  line-height: 1.4;
+}
+
+.prose :is(h2, h3, h4):not(:where(.not-prose, .not-prose *)) {
+  scroll-margin-top: 5.5rem;
+}
+
+.prose code:not(:where(pre code, .not-prose, .not-prose *)) {
+  padding: 0.15em 0.4em;
+  border: 1px solid #1d232a;
+  border-radius: 4px;
+  background-color: #14181d;
+  font-size: 0.875em;
+  font-weight: 400;
+}
+
+.prose a code:not(:where(.not-prose, .not-prose *)) {
+  color: inherit;
+}
+
+.prose pre:not(:where(.not-prose, .not-prose *)) {
+  overflow-x: auto;
+  padding: 1rem;
+  border: 1px solid #1d232a;
+  border-radius: 8px;
+  font-size: 0.875rem;
+  line-height: 1.7;
+  tab-size: 2;
+}
+
+.prose pre code:not(:where(.not-prose, .not-prose *)) {
+  padding: 0;
+  border: 0;
+  background: none;
+  font-size: inherit;
+}
+
+.prose blockquote:not(:where(.not-prose, .not-prose *)) {
+  font-style: normal;
+  border-left-width: 2px;
+  padding-left: 1.25rem;
+}
+
+.prose blockquote p:not(:where(.not-prose, .not-prose *))::before,
+.prose blockquote p:not(:where(.not-prose, .not-prose *))::after {
+  content: '';
+}
+
+.prose table:not(:where(.not-prose, .not-prose *)) {
+  width: 100%;
+  font-size: 0.9375rem;
+}
+
+.prose :is(th, td):not(:where(.not-prose, .not-prose *)) {
+  padding: 0.625rem 0.875rem;
+}
+
+.prose th:not(:where(.not-prose, .not-prose *)) {
+  font-weight: 600;
+  text-align: left;
+}
+
+.prose a:not(:where(.not-prose, .not-prose *)) {
+  text-decoration: none;
+  border-bottom: 1px solid #2a323c;
+  transition: border-color 240ms ease;
+}
+
+.prose a:not(:where(.not-prose, .not-prose *)):hover {
+  border-bottom-color: #ff5a7a;
+}
+
+.prose a:not(:where(.not-prose, .not-prose *)):focus-visible {
+  outline: 2px solid #ff5a7a;
+  outline-offset: 2px;
+  border-radius: 2px;
+}
+
+.prose img:not(:where(.not-prose, .not-prose *)) {
+  border: 1px solid #1d232a;
+  border-radius: 8px;
+}

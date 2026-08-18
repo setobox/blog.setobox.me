@@ -1,0 +1,39 @@
+/* 设计令牌运行时变量 */
+
+:root {
+  /* Color variables are emitted by the UnoCSS preflight from
+     shared/design/tokens.ts so CSS, utilities, and GSAP share one source. */
+
+  --scrollbar-w: 8px;
+}
+
+html {
+  background: var(--c-bg);
+  color-scheme: dark;
+  scrollbar-gutter: stable;
+}
+
+body {
+  /* 背景色切换必须由 JS 插值驱动，不要加 CSS transition —— 会与 scrub 抢时序 */
+  background: var(--c-bg);
+  color: var(--c-text);
+}
+
+/* 鼠标点击不显示浏览器默认的焦点轮廓；键盘导航仍由 :focus-visible 呈现红色提示。 */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

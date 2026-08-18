@@ -15,14 +15,15 @@ const licenseUrl = 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
 
 <template>
   <section
+    data-page-item
     aria-label="文章版权声明"
-    class="bg-black/30 px-6 py-7 rounded-2xl relative overflow-hidden isolate md:px-9 md:py-8"
+    class="px-6 py-7 surface relative overflow-hidden isolate md:px-9 md:py-8"
   >
     <svg
       aria-hidden="true"
       focusable="false"
       viewBox="0 0 640 640"
-      class="text-fg-1 opacity-5 h-36 w-36 pointer-events-none right-5 top-1/2 absolute sm:h-60 sm:w-60 -translate-y-1/2 sm:right-6"
+      class="text-ink-50 opacity-5 h-36 w-36 pointer-events-none right-5 top-1/2 absolute md:h-60 md:w-60 -translate-y-1/2 md:right-6"
     >
       <path
         fill="currentColor"
@@ -31,43 +32,43 @@ const licenseUrl = 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
     </svg>
 
     <div class="min-w-0 relative z-10">
-      <h2 class="text-lg text-fg-1 leading-snug font-bold m-0">
+      <h2 class="text-h4 text-ink-50 font-display">
         {{ title }}
       </h2>
 
       <a
-        class="text-base text-current-1 mt-1 block break-all transition-colors duration-150 hover:text-current-2 focus-visible:outline-2 focus-visible:outline-current-2 focus-visible:outline-offset-2"
+        class="text-base link mt-1 block break-all"
         :href="permalink"
       >
         {{ permalink }}
       </a>
 
-      <dl class="mt-5 gap-4 grid grid-cols-1 sm:gap-x-10 sm:grid-cols-[max-content_max-content_minmax(0,1fr)]">
+      <dl class="mt-5 gap-4 grid grid-cols-1 md:gap-x-10 md:grid-cols-[max-content_max-content_minmax(0,1fr)]">
         <div>
-          <dt class="text-sm text-fg-4 font-mono">
+          <dt class="text-meta">
             作者
           </dt>
-          <dd class="text-base text-fg-2 m-0 mt-1">
+          <dd class="text-base text-ink-200 m-0 mt-1">
             Setobox（姬顶盒）
           </dd>
         </div>
 
         <div>
-          <dt class="text-sm text-fg-4 font-mono">
+          <dt class="text-meta">
             发布于
           </dt>
-          <dd class="text-base text-fg-2 m-0 mt-1 tabular-nums">
+          <dd class="text-base text-ink-200 m-0 mt-1 tabular-nums">
             <time :datetime="displayDate">{{ displayDate }}</time>
           </dd>
         </div>
 
         <div>
-          <dt class="text-sm text-fg-4 font-mono">
+          <dt class="text-meta">
             许可协议
           </dt>
           <dd class="text-base m-0 mt-1">
             <a
-              class="text-current-1 transition-colors duration-150 hover:text-current-2 focus-visible:outline-2 focus-visible:outline-current-2 focus-visible:outline-offset-2"
+              class="link"
               :href="licenseUrl"
               target="_blank"
               rel="noopener noreferrer"

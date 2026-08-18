@@ -1,8 +1,5 @@
 <script setup lang="ts">
 import type { ResourceGroup } from '~/features/resources/types'
-import { useTemplateRef } from 'vue'
-
-const pageRoot = useTemplateRef<HTMLElement>('pageRoot')
 
 const {
   data: collectionGroups,
@@ -14,24 +11,22 @@ const {
   key: 'collection-groups',
   server: false,
 })
-
-usePageEntrance(pageRoot)
 </script>
 
 <template>
-  <div ref="pageRoot" class="mx-auto max-w-6xl">
+  <section class="collections-page container-wide py-block">
     <PageIntro title="Collections" description="网站、开发资源与在线工具收藏。" />
 
     <div
       v-if="error"
-      class="text-sm text-fg-3 mt-12 p-5 border border-fg-7 md:mt-16"
+      class="text-sm text-ink-200 mt-block p-group surface"
       role="alert"
     >
       <p class="m-0">
         数据加载失败，请稍后重试。
       </p>
       <button
-        class="text-fg-2 font-bold mt-3 p-0 border-0 border-b border-fg-5 bg-transparent cursor-pointer hover:text-fg-1"
+        class="btn-ghost mt-group"
         type="button"
         @click="refresh()"
       >
@@ -41,7 +36,7 @@ usePageEntrance(pageRoot)
 
     <p
       v-else-if="(status === 'idle' || status === 'pending') && !collectionGroups.length"
-      class="text-sm text-fg-4 mt-12 md:mt-16"
+      class="text-sm text-ink-300 mt-block"
       aria-live="polite"
     >
       正在加载…
@@ -49,7 +44,7 @@ usePageEntrance(pageRoot)
 
     <div
       v-else-if="collectionGroups.length"
-      class="mt-12 gap-14 grid md:mt-16 md:gap-18"
+      class="mt-block gap-block grid"
     >
       <ResourceSection
         v-for="group in collectionGroups"
@@ -59,8 +54,14 @@ usePageEntrance(pageRoot)
       />
     </div>
 
-    <p v-else class="text-sm text-fg-4 mt-12 md:mt-16">
+    <p v-else class="text-sm text-ink-300 mt-block">
       暂无数据。
     </p>
-  </div>
+  </section>
 </template>
+
+<style scoped>
+.collections-page {
+  max-width: 72rem;
+}
+</style>

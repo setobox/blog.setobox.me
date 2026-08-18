@@ -8,11 +8,14 @@ defineProps<Props>()
 </script>
 
 <template>
-  <header data-page-intro class="pb-8 border-b border-fg-7 md:pb-10">
-    <h1 class="text-4xl tracking-tight font-bold m-0 md:text-5xl">
+  <header data-page-intro class="pb-group border-b border-ink-700">
+    <p data-text-reveal="line" class="text-meta text-accent">
+      SYSTEM / PAGE
+    </p>
+    <h1 data-text-reveal="heading" class="text-display-lg text-ink-50 font-display mt-item">
       {{ title }}
     </h1>
-    <p v-if="description" class="text-base text-fg-3 leading-relaxed mb-0 mt-3 max-w-2xl md:text-lg">
+    <p v-if="description" data-text-reveal="line" class="text-lead mt-group max-w-prose">
       {{ description }}
     </p>
   </header>

@@ -1,5 +1,6 @@
 import type { FileAfterParseHook } from '@nuxt/content'
 import { appDescription } from './app/constants/index'
+import { designTokens, fontPreloads } from './shared/design/tokens'
 import { resolveReadingMinutes } from './shared/utils/reading-time'
 
 export default defineNuxtConfig({
@@ -7,7 +8,6 @@ export default defineNuxtConfig({
     '@vueuse/nuxt',
     '@unocss/nuxt',
     '@pinia/nuxt',
-    '@nuxtjs/color-mode',
     '@nuxt/eslint',
     '@nuxt/content',
     '@nuxt/image',
@@ -27,23 +27,21 @@ export default defineNuxtConfig({
           sizes: '40x40',
           type: 'image/webp',
         },
+        ...fontPreloads,
       ],
       meta: [
         { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: appDescription },
-        { name: 'theme-color', media: '(prefers-color-scheme: light)', content: '#f6f4f2' },
-        { name: 'theme-color', media: '(prefers-color-scheme: dark)', content: '#252423' },
+        { name: 'theme-color', content: designTokens.colors.beat.s1 },
       ],
     },
   },
 
   css: [
-    '~/assets/main.css',
+    '~/assets/css/fonts.css',
+    '~/assets/css/tokens.css',
+    '~/assets/css/prose.css',
   ],
-
-  colorMode: {
-    classSuffix: '',
-  },
 
   content: {
     database: {
@@ -54,7 +52,16 @@ export default defineNuxtConfig({
 
   routeRules: {
     '/': { prerender: true },
+    '/blog': { prerender: true },
+    '/blog/archive': { prerender: true },
+    '/blog/categories': { prerender: true },
+    '/blog/posts': {
+      redirect: { to: '/blog', statusCode: 301 },
+    },
+    '/blog/tags': { prerender: true },
+    '/collections': { prerender: true },
     '/use': { prerender: true },
+    '/api/**': { prerender: false },
   },
 
   future: {
@@ -62,6 +69,7 @@ export default defineNuxtConfig({
   },
 
   experimental: {
+    payloadExtraction: false,
     renderJsonPayloads: true,
     typedPages: true,
   },
@@ -75,8 +83,19 @@ export default defineNuxtConfig({
       },
     },
     prerender: {
-      crawlLinks: false,
-      routes: ['/'],
+      crawlLinks: true,
+      ignore: [
+        '/blog/2023/git-advanced',
+      ],
+      routes: [
+        '/',
+        '/blog',
+        '/blog/archive',
+        '/blog/categories',
+        '/blog/tags',
+        '/collections',
+        '/use',
+      ],
       failOnError: true,
     },
     preset: 'cloudflare-pages',
@@ -87,6 +106,9 @@ export default defineNuxtConfig({
       include: [
         '@vue/devtools-core',
         '@vue/devtools-kit',
+        'gsap',
+        'gsap/ScrollTrigger',
+        'gsap/SplitText',
       ],
     },
   },

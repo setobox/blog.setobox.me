@@ -15,9 +15,7 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "@giscus/vue": "catalog:frontend",
-    "three": "catalog:frontend",
-    "wrangler": "catalog:build"
+    "@giscus/vue": "catalog:frontend"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:dev",
@@ -27,10 +25,8 @@
     "@nuxt/devtools": "catalog:build",
     "@nuxt/eslint": "catalog:build",
     "@nuxt/image": "catalog:build",
-    "@nuxtjs/color-mode": "catalog:build",
     "@pinia/nuxt": "catalog:build",
     "@types/node": "catalog:dev",
-    "@types/three": "catalog:types",
     "@unocss/eslint-config": "catalog:build",
     "@unocss/nuxt": "catalog:build",
     "@vueuse/core": "catalog:frontend",
@@ -47,6 +43,7 @@
     "vitest": "catalog:dev",
     "vue": "catalog:frontend",
     "vue-tsc": "catalog:dev",
+    "wrangler": "catalog:build",
     "zod": "catalog:dev"
   },
   "resolutions": {

@@ -1,4 +1,5 @@
-import { createLocalFontProcessor } from '@unocss/preset-web-fonts/local'
+import type { Rule } from 'unocss'
+import type { LayerKey } from './shared/design/tokens'
 import {
   defineConfig,
   presetAttributify,
@@ -9,90 +10,84 @@ import {
   transformerDirectives,
   transformerVariantGroup,
 } from 'unocss'
+import {
+  designTokens,
+  layerKeys,
+  renderRuntimeCssVars,
+  unoTheme,
+} from './shared/design/tokens'
 
-const paletteNames = [
-  'black',
-  'white',
-  'red',
-  'corail',
-  'orange',
-  'yellow',
-  'citrus',
-  'lime',
-  'green',
-  'turquoise',
-  'cyan',
-  'sky',
-  'sega',
-  'king',
-  'indigo',
-  'lavender',
-  'purple',
-  'magenta',
-  'pink',
-  'fg',
-] as const
-
-function createColorScale(name: string, steps = 8) {
-  return Object.fromEntries(
-    Array.from({ length: steps }, (_, index) => {
-      const step = index + 1
-      return [step, `var(--hex-${name}-${step})`]
-    }),
-  )
-}
-
-const paletteColors = Object.fromEntries(
-  paletteNames.map(name => [name, createColorScale(name)]),
+const semanticZIndexRules = Object.entries(designTokens.zIndex).map<Rule>(
+  ([name, value]) => [`z-${name}`, { 'z-index': value }],
 )
 
 export default defineConfig({
-  shortcuts: [
-    ['bg-base', 'bg-ui-bg'],
-    ['bg-secondary', 'bg-ui-surface'],
-    ['border-base', 'border-ui-border'],
-    ['btn-action', 'inline-flex min-h-12 items-center justify-center gap-2 border border-current px-5 py-3 font-mono text-sm font-bold no-underline transition-colors duration-150'],
-    ['color-base', 'text-ui-text'],
-    ['color-soft', 'text-ui-text-soft'],
-    ['flex-center', 'flex items-center justify-center'],
-    ['home-container', 'mx-auto w-full max-w-1500px px-4 md:px-8 lg:px-16'],
-    ['section-label', 'm-0 font-mono text-11px tracking-0.16em text-ui-text-mute'],
-    ['text-link', 'cursor-pointer transition-colors duration-150 ease-in-out'],
-    ['container', 'mx-auto max-w-1500px w-full'],
-    ['btn', 'px-4 py-1 rounded inline-block bg-teal-600 text-fg-1 cursor-pointer hover:bg-teal-700 disabled:cursor-default disabled:bg-gray-600 disabled:opacity-50'],
-    ['icon-btn', 'inline-flex h-11 w-11 cursor-pointer select-none items-center justify-center border border-ui-border bg-transparent text-ui-text-soft transition-colors duration-150 hover:text-ui-text'],
-  ],
-  theme: {
-    colors: {
-      ...paletteColors,
-      'bg': createColorScale('bg', 7),
-      'current': createColorScale('current'),
-      'ui-bg': 'var(--ui-bg)',
-      'ui-border': 'var(--ui-border)',
-      'ui-surface': 'var(--ui-surface)',
-      'ui-text': 'var(--ui-text)',
-      'ui-text-mute': 'var(--ui-text-mute)',
-      'ui-text-soft': 'var(--ui-text-soft)',
-    },
-  },
   presets: [
     presetWind4(),
     presetAttributify(),
     presetIcons({
       scale: 1.2,
     }),
-    presetTypography(),
-    presetWebFonts({
-      fonts: {
-        sans: 'DM Sans',
-        serif: 'DM Serif Display',
-        mono: 'DM Mono',
+    presetTypography({
+      cssExtend: {
+        'code::before': { content: '""' },
+        'code::after': { content: '""' },
       },
-      processors: createLocalFontProcessor(),
+    }),
+    presetWebFonts({
+      provider: 'none',
+      fonts: {
+        base: ['AaZongYiYuan', 'sans-serif'],
+        mono: ['Monaspace Krypton', 'ui-monospace', 'monospace'],
+      },
     }),
   ],
+
   transformers: [
     transformerDirectives(),
     transformerVariantGroup(),
   ],
+
+  preflights: [
+    { getCSS: renderRuntimeCssVars },
+  ],
+
+  theme: {
+    colors: {
+      ...unoTheme.colors,
+    },
+    text: unoTheme.text,
+    spacing: unoTheme.spacing,
+    container: unoTheme.container,
+    radius: unoTheme.radius,
+  },
+
+  shortcuts: [
+    ['container-content', 'mx-auto w-full max-w-content px-4 lg:px-6'],
+    ['container-wide', 'mx-auto w-full max-w-wide px-4 lg:px-6'],
+    ['container-prose', 'mx-auto w-full max-w-prose px-4 lg:px-6'],
+    ['surface', 'bg-ink-800 border border-ink-700 rounded-md'],
+    ['surface-hover', 'transition-colors duration-240 hover:border-ink-600'],
+    ['text-meta', 'font-mono text-xs uppercase text-ink-300'],
+    ['text-lead', 'text-body-lg text-ink-200'],
+    ['focus-ring', 'outline-none focus-visible:outline-2 focus-visible:outline-accent focus-visible:outline-offset-2'],
+    ['link', 'text-accent underline-offset-4 hover:underline focus-ring'],
+    ['btn', 'inline-flex items-center gap-2 px-4 py-2.5 rounded-sm font-medium transition-all duration-240 outline-none'],
+    ['btn-primary', 'btn bg-accent text-ink-950 hover:brightness-110'],
+    ['btn-ghost', 'btn border border-ink-700 text-ink-100 hover:border-ink-600 hover:bg-ink-850'],
+    ['callout-label', 'font-mono text-xs uppercase px-2 py-1 rounded-sm border bg-ink-950/80 backdrop-blur-sm'],
+  ],
+
+  rules: [
+    ...semanticZIndexRules,
+    ['text-layer', { color: 'var(--c-layer)' }],
+    ['border-layer', { 'border-color': 'var(--c-layer)' }],
+    ['bg-layer', { 'background-color': 'var(--c-layer)' }],
+    ['glow-layer', { 'box-shadow': '0 0 24px -4px var(--c-layer)' }],
+  ],
+  content: {
+    pipeline: {
+      include: [/\.(vue|[jt]sx?|md)($|\?)/],
+    },
+  },
 })

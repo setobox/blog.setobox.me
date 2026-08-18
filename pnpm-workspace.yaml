@@ -12,7 +12,6 @@ catalogs:
     '@nuxt/eslint': ^1.15.2
     '@nuxt/image': 2.0.0
     '@nuxt/kit': ^4.4.2
-    '@nuxtjs/color-mode': ^4.0.0
     '@pinia/nuxt': ^0.11.3
     '@unocss/eslint-config': ^66.6.7
     '@unocss/nuxt': ^66.6.7
@@ -41,12 +40,9 @@ catalogs:
     '@vueuse/core': ^14.2.1
     gsap: ^3.15.0
     pinia: ^3.0.4
-    three: ^0.185.1
     vue: ^3.5.30
   icons:
     '@iconify/json': ^2.2.495
-  types:
-    '@types/three': ^0.185.1
 onlyBuiltDependencies:
   - '@parcel/watcher'
   - better-sqlite3
