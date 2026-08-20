@@ -92,4 +92,4 @@ OK，这样部署上线就完成了。
 
 之前用过 [Valine](https://valine.js.org/)、[Twikoo](https://twikoo.js.org/) ，都是非常简单就能上手。但考虑到经过一番调研，最终选择了 [Giscus](https://giscus.app/zh-CN) 作为评论系统，把每篇文章的评论映射到 GitHub Discussions，评论数据、账号体系、权限、通知和审核都由 GitHub 承担，不需要维护额外后台，且天然能过滤一些广告。
 
-搭建步骤参考文章 [《用 Github 管理你的评论区》](/blog/2026/giscus/)，我在这里就不赘述了。
+搭建步骤可以参考 [Giscus 官方文档](https://giscus.app/zh-CN)，我在这里就不赘述了。

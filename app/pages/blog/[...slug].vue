@@ -12,7 +12,7 @@ const path = route.path
 const { data: post } = await useAsyncData(`blog-${path}`, () => blogPostByPath(path))
 
 if (!post.value)
-  throw createError({ statusCode: 404, statusMessage: '文章不存在', fatal: true })
+  throw createError({ statusCode: 404, message: '文章不存在', fatal: true })
 
 const article = post.value
 const permalink = new URL(route.path, siteUrl).href
