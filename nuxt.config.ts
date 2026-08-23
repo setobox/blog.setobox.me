@@ -55,6 +55,7 @@ export default defineNuxtConfig({
     '/blog': { prerender: true },
     '/blog/archive': { prerender: true },
     '/blog/categories': { prerender: true },
+    '/blog/feed.xml': { prerender: true },
     '/blog/posts': {
       redirect: { to: '/blog', statusCode: 301 },
     },
@@ -92,6 +93,7 @@ export default defineNuxtConfig({
         '/blog',
         '/blog/archive',
         '/blog/categories',
+        '/blog/feed.xml',
         '/blog/tags',
         '/collections',
         '/use',
