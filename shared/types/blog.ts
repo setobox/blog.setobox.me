@@ -8,6 +8,7 @@ export interface BlogPostSummary {
   pin?: boolean | number
   tags?: string[]
   title: string
+  updated?: string
 }
 
 export interface BlogPagination {

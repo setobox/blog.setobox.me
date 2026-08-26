@@ -15,7 +15,7 @@ function isExternalLink(href: string): boolean {
 <template>
   <section>
     <header class="pb-group border-b border-ink-700">
-      <h2 data-text-reveal="heading" class="text-h2 text-ink-50 font-display">
+      <h2 data-text-reveal="heading" class="font-display text-h2 text-ink-50">
         {{ group.title }}
       </h2>
       <p v-if="group.description" data-text-reveal="line" class="text-sm text-ink-300 leading-relaxed mt-item max-w-prose">

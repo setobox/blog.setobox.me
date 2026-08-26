@@ -16,16 +16,12 @@ const PostSchema = z.object({
   tags: z.array(z.string()).optional(),
   categories: z.array(z.string()).optional(),
   pin: z.union([z.boolean(), z.number()]).optional(),
+  ...SeoFields,
 })
 
 const UseSchema = z.object({
   title: z.string(),
   description: z.string().optional(),
-})
-
-const LayerSchema = z.object({
-  title: z.string(),
-  index: z.number().int().min(0).max(4),
 })
 
 const PageSchema = z.object({
@@ -51,11 +47,6 @@ export default defineContentConfig({
       type: 'page',
       source: 'use.md',
       schema: UseSchema,
-    }),
-    layers: defineCollection({
-      type: 'page',
-      source: 'home/layers/**/*.md',
-      schema: LayerSchema,
     }),
     pages: defineCollection({
       type: 'page',

@@ -1,5 +1,5 @@
 import type { FileAfterParseHook } from '@nuxt/content'
-import { appDescription } from './app/constants/index'
+import { appDescription, appName, siteUrl } from './app/constants/index'
 import { designTokens, fontPreloads } from './shared/design/tokens'
 import { resolveReadingMinutes } from './shared/utils/reading-time'
 
@@ -19,6 +19,9 @@ export default defineNuxtConfig({
 
   app: {
     head: {
+      htmlAttrs: {
+        lang: 'zh-CN',
+      },
       viewport: 'width=device-width,initial-scale=1',
       link: [
         {
@@ -27,10 +30,15 @@ export default defineNuxtConfig({
           sizes: '40x40',
           type: 'image/webp',
         },
+        {
+          rel: 'alternate',
+          type: 'application/rss+xml',
+          title: `${appName} · RSS`,
+          href: `${siteUrl}/blog/feed.xml`,
+        },
         ...fontPreloads,
       ],
       meta: [
-        { name: 'viewport', content: 'width=device-width, initial-scale=1' },
         { name: 'description', content: appDescription },
         { name: 'theme-color', content: designTokens.colors.beat.s1 },
       ],
@@ -51,7 +59,7 @@ export default defineNuxtConfig({
   },
 
   routeRules: {
-    '/': { prerender: true },
+    '/': { redirect: { to: '/blog', statusCode: 301 } },
     '/blog': { prerender: true },
     '/blog/archive': { prerender: true },
     '/blog/categories': { prerender: true },
@@ -60,6 +68,7 @@ export default defineNuxtConfig({
       redirect: { to: '/blog', statusCode: 301 },
     },
     '/blog/tags': { prerender: true },
+    '/sitemap.xml': { prerender: true },
     '/collections': { prerender: true },
     '/use': { prerender: true },
     '/api/**': { prerender: false },
@@ -85,17 +94,14 @@ export default defineNuxtConfig({
     },
     prerender: {
       crawlLinks: true,
-      ignore: [
-        '/blog/2023/git-advanced',
-      ],
       routes: [
-        '/',
         '/blog',
         '/blog/archive',
         '/blog/categories',
         '/blog/feed.xml',
         '/blog/tags',
         '/collections',
+        '/sitemap.xml',
         '/use',
       ],
       failOnError: true,

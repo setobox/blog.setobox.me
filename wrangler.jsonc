@@ -1,9 +1,9 @@
 {
   "d1_databases": [
     {
-      "binding": "DB",
+      "binding": "setobox-db",
       "database_name": "setobox-db",
-      "database_id": "setobox-db-blog"
+      "database_id": "ff1ab772-7246-49c0-9d99-37eeb9066159"
     }
   ]
 }

@@ -2,7 +2,7 @@
 import Giscus from '@giscus/vue'
 import { usePreferredReducedMotion, useWindowScroll } from '@vueuse/core'
 import { computed } from 'vue'
-import { siteUrl } from '~/constants'
+import { appName, siteUrl } from '~/constants'
 import { formatContentDate, isoContentDate } from '~/utils/content-date'
 
 definePageMeta({ layout: 'default' })
@@ -48,9 +48,49 @@ useActionButton({
   },
 })
 
+const socialImage = computed(() => {
+  const image = article.ogImage ?? article.cover
+  return image ? new URL(image, siteUrl).href : new URL('/avatar.jpg', siteUrl).href
+})
+
 useSeoMeta({
   title: article.title,
   description: article.description,
+  ogTitle: article.title,
+  ogDescription: article.description,
+  ogType: 'article',
+  ogUrl: permalink,
+  ogImage: socialImage,
+  ogSiteName: appName,
+  ogLocale: 'zh_CN',
+  articlePublishedTime: isoContentDate(article.date),
+  articleModifiedTime: isoContentDate(article.updated ?? article.date),
+  articleTag: article.tags,
+  twitterCard: 'summary_large_image',
+  twitterTitle: article.title,
+  twitterDescription: article.description,
+  twitterImage: socialImage,
+  robots: article.noindex ? 'noindex, nofollow' : 'index, follow',
+})
+
+useHead({
+  link: [{ rel: 'canonical', href: permalink }],
+  script: [{
+    type: 'application/ld+json',
+    innerHTML: computed(() => JSON.stringify({
+      '@context': 'https://schema.org',
+      '@type': 'BlogPosting',
+      'headline': article.title,
+      'description': article.description,
+      'image': socialImage.value,
+      'datePublished': isoContentDate(article.date),
+      'dateModified': isoContentDate(article.updated ?? article.date),
+      'author': { '@type': 'Person', 'name': appName, 'url': siteUrl },
+      'publisher': { '@type': 'Person', 'name': appName, 'url': siteUrl },
+      'mainEntityOfPage': { '@type': 'WebPage', '@id': permalink },
+      'keywords': article.tags?.join(', '),
+    })),
+  }],
 })
 </script>
 
@@ -67,7 +107,7 @@ useSeoMeta({
             <span>{{ article.minutes ?? 1 }} 分钟阅读</span>
           </div>
 
-          <h1 class="article-title text-ink-50 font-display mt-item">
+          <h1 class="article-title font-display text-ink-50 mt-item">
             {{ article.title }}
           </h1>
           <p v-if="article.description" class="text-lead mt-group">

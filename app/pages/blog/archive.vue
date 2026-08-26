@@ -28,12 +28,12 @@ const grouped = computed<YearGroup[]>(() => {
     }))
 })
 
-useSeoMeta({ title: '博客归档', description: '按时间浏览全部文章。' })
+usePageSeo({ title: '博客归档', description: '按时间浏览全部文章。' })
 </script>
 
 <template>
   <section>
-    <h1 class="text-display-lg text-ink-50 font-display">
+    <h1 class="font-display text-display-lg text-ink-50">
       归档
     </h1>
     <p class="text-lead mt-group">
@@ -47,7 +47,7 @@ useSeoMeta({ title: '博客归档', description: '按时间浏览全部文章。
         :aria-labelledby="`year-${group.year}`"
       >
         <div class="archive-timeline__heading">
-          <h2 :id="`year-${group.year}`" class="text-h2 text-ink-50 font-display">
+          <h2 :id="`year-${group.year}`" class="font-display text-h2 text-ink-50">
             {{ group.year }}
           </h2>
           <span class="text-meta">{{ group.total }} 篇</span>

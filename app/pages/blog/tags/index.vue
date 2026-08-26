@@ -1,12 +1,12 @@
 <script setup lang="ts">
 definePageMeta({ layout: 'blog' })
 const tags = await useBlogTags()
-useSeoMeta({ title: '博客标签', description: '按标签浏览全部文章。' })
+usePageSeo({ title: '博客标签', description: '按标签浏览全部文章。' })
 </script>
 
 <template>
   <section>
-    <h1 class="text-display-lg text-ink-50 font-display">
+    <h1 class="font-display text-display-lg text-ink-50">
       标签
     </h1>
     <p class="text-lead mt-group">

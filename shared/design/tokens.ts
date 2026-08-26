@@ -165,9 +165,13 @@ export function renderRuntimeCssVars(): string {
   return `:root{${declarations}}`
 }
 
+// Only the mono face is preloaded: it renders above the fold in every
+// `text-meta` chip and is 445KB. The base face (AaZongYiYuan) is a 3.7MB CJK
+// font -- preloading it would starve LCP, so it stays on `font-display: swap`
+// until it is subset.
 export const fontPreloads = [{
   rel: 'preload',
-  href: '/fonts/space-grotesk-v22-latin-var.woff2',
+  href: '/fonts/monaspace-krypton-var.woff2',
   as: 'font',
   type: 'font/woff2',
   crossorigin: '',

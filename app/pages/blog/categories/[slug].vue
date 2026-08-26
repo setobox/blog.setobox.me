@@ -22,7 +22,7 @@ const { data: rows } = await useAsyncData(
 const posts = computed(() => (rows.value ?? [])
   .filter(post => postHasTaxonomy(post.categories, name.value!)) as BlogPostSummary[])
 
-useSeoMeta({
+usePageSeo({
   title: () => `分类：${name.value}`,
   description: () => `${name.value} 分类下的全部文章。`,
 })
@@ -33,7 +33,7 @@ useSeoMeta({
     <NuxtLink to="/blog/categories" class="text-meta inline-flex gap-1.5 items-center hover:text-ink-100 focus-ring">
       <span class="i-lucide-arrow-left" aria-hidden="true" />全部分类
     </NuxtLink>
-    <h1 class="text-display-lg text-ink-50 font-display mt-item">
+    <h1 class="font-display text-display-lg text-ink-50 mt-item">
       {{ name }}
     </h1>
     <p class="text-lead mt-group">

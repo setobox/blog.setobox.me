@@ -12,7 +12,7 @@ defineProps<Props>()
     <p data-text-reveal="line" class="text-meta text-accent">
       SYSTEM / PAGE
     </p>
-    <h1 data-text-reveal="heading" class="text-display-lg text-ink-50 font-display mt-item">
+    <h1 data-text-reveal="heading" class="font-display text-display-lg text-ink-50 mt-item">
       {{ title }}
     </h1>
     <p v-if="description" data-text-reveal="line" class="text-lead mt-group max-w-prose">

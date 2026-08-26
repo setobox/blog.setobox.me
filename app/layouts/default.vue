@@ -7,7 +7,6 @@ const ARTICLE_ROUTE_RE = /^\/blog\/\d{4}\//
 
 usePageEntrance(pageRoot, {
   animateInitial: () => !ARTICLE_ROUTE_RE.test(route.path),
-  enabled: () => route.path !== '/',
 })
 </script>
 

@@ -11,6 +11,11 @@ const {
   key: 'collection-groups',
   server: false,
 })
+
+usePageSeo({
+  title: 'Collections',
+  description: '网站、开发资源与在线工具收藏。',
+})
 </script>
 
 <template>

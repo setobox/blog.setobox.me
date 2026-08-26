@@ -1,18 +1,7 @@
 import type { BlogPostSummary } from '#shared/types/blog'
+import { escapeXml } from '#shared/utils/xml'
 import { queryCollection } from '@nuxt/content/server'
 import { appDescription, appName, siteUrl } from '~/constants'
-
-/**
- * Escape special XML characters
- */
-function escapeXml(unsafe: string): string {
-  return unsafe
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&apos;')
-}
 
 /**
  * Convert date to RFC 822 format (required by RSS 2.0)
@@ -25,6 +14,7 @@ function toRFC822(date: string | Date): string {
 export default defineEventHandler(async (event) => {
   // Fetch all blog posts sorted by date
   const posts = await queryCollection(event, 'blog')
+    .where('noindex', '=', false)
     .order('date', 'DESC')
     .select('title', 'description', 'date', 'path', 'id')
     .all() as BlogPostSummary[]

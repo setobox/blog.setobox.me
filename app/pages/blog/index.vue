@@ -25,7 +25,7 @@ const pageCount = computed(() => blogPage.value?.pagination.pageCount ?? 1)
 await syncCanonicalPage(blogPage.value)
 watch(blogPage, page => void syncCanonicalPage(page))
 
-useSeoMeta({
+usePageSeo({
   title: '博客',
   description: '记录开发、设计与持续学习中的想法和实践。',
 })
@@ -57,7 +57,7 @@ async function syncCanonicalPage(page: BlogPageResponse | null | undefined): Pro
         <p class="text-meta text-layer-motion">
           BLOG / NOTES
         </p>
-        <h1 class="text-display-lg text-ink-50 font-display mt-item">
+        <h1 class="font-display text-display-lg text-ink-50 mt-item">
           全部文章
         </h1>
         <p class="text-lead mt-group max-w-prose">

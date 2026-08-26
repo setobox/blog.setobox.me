@@ -11,6 +11,11 @@ if (!page.value) {
 }
 
 const contentPage = page.value
+
+usePageSeo({
+  title: contentPage.title,
+  description: contentPage.description ?? '我在用的硬件、软件与开发工具。',
+})
 </script>
 
 <template>

@@ -32,7 +32,7 @@ const licenseUrl = 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
     </svg>
 
     <div class="min-w-0 relative z-10">
-      <h2 class="text-h4 text-ink-50 font-display">
+      <h2 class="font-display text-h4 text-ink-50">
         {{ title }}
       </h2>
 

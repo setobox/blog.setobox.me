@@ -1,5 +1,4 @@
 import type { Rule } from 'unocss'
-import type { LayerKey } from './shared/design/tokens'
 import {
   defineConfig,
   presetAttributify,
@@ -12,7 +11,6 @@ import {
 } from 'unocss'
 import {
   designTokens,
-  layerKeys,
   renderRuntimeCssVars,
   unoTheme,
 } from './shared/design/tokens'

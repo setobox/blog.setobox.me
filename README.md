@@ -1,6 +1,6 @@
-# [setobox.me](https://setobox.me)
+# [blog.setobox.me](https://blog.setobox.me)
 
-个人网站 & 博客
+博客
 
 License：
 
