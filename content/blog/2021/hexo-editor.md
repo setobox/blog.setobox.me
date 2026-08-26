@@ -1,5 +1,6 @@
 ---
 title: HexoEditor(适用于Hexo的专用编辑器)
+description: '介绍 HexoEditor 这款专为 Hexo 设计的 Markdown 编辑器，以及它在写作流程中的配置与使用。'
 tags:
   - 工具
   - Hexo

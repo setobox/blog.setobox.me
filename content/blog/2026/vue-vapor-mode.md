@@ -1,7 +1,7 @@
 ---
 title: 'Vapor Mode'
 description: 'Vue 3.6 Vapor Mode 的编译模型、启用方式、兼容边界与迁移判断。'
-date: 2026-08-07
+date: 2026-07-24
 tags:
   - 'Vue 3.6'
   - 'Vue'

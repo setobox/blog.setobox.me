@@ -1,5 +1,6 @@
 ---
 title: MySQL 基础
+description: '从数据库系统概念到建库建表、约束与增删改查，整理 MySQL 入门阶段需要掌握的基础。'
 tags:
   - mysql
   - 数据库

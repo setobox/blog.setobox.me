@@ -1,7 +1,7 @@
 ---
 title: 'React 常见面试题'
 description: '从渲染与状态快照出发，理解 Hooks、Effect、并发更新、服务端渲染和 React 性能优化。'
-date: 2026-08-07
+date: 2026-08-18
 tags:
   - React
   - React 19

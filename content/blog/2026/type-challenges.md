@@ -1,7 +1,7 @@
 ---
 title: 'Type Challenges'
 description: '从 Equal 与 Expect 开始，循序练习元组、条件类型、infer、映射类型、模板字面量、递归与联合类型分配。'
-date: 2026-08-07
+date: 2026-07-30
 tags:
   - TypeScript
   - Type Challenges

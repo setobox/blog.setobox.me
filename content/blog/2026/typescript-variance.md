@@ -1,7 +1,7 @@
 ---
 title: '协变和逆变'
 description: '从函数参数与返回值出发，理解 TypeScript 的协变、逆变、双变和不变，以及 strictFunctionTypes、数组与 readonly 的边界。'
-date: 2026-08-07
+date: 2026-08-03
 tags:
   - TypeScript
   - 类型系统

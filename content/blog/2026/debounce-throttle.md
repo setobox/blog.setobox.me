@@ -1,7 +1,7 @@
 ---
 title: '防抖与节流'
 description: '从调用时间线到 TypeScript 实现，讲清防抖、节流、leading、trailing、maxWait，以及 cancel 和 flush 的设计取舍。'
-date: 2026-08-07
+date: 2026-07-28
 tags:
   - JavaScript
   - TypeScript

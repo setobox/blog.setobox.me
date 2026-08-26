@@ -1,7 +1,7 @@
 ---
 title: 'Vue 常见面试题'
 description: '从响应式原理到 Pinia、SSR，整理 Vue 面试中真正需要讲清楚的问题。'
-date: 2026-08-07
+date: 2026-08-20
 tags:
   - 'Vue'
   - 'Vue 3'

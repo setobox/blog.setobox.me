@@ -1,5 +1,6 @@
 ---
 title: Tomcat和Servlet应用配置及部分问题
+description: '记录 Tomcat 与 Servlet 的环境配置、项目部署流程，以及过程中遇到的报错和解决办法。'
 tags:
   - JavaWEb
   - Tomcat

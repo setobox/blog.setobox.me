@@ -1,7 +1,7 @@
 ---
 title: '垃圾回收机制'
 description: '从可达性和标记清除出发，理解 JavaScript 引擎的分代、增量与并发回收，以及常见内存泄漏的定位方法。'
-date: 2026-08-07
+date: 2026-07-26
 tags:
   - JavaScript
   - GC

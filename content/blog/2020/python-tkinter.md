@@ -1,5 +1,6 @@
 ---
 title: Python图形用户界面(Tkinter)
+description: '用 Tkinter 搭建 Python 桌面界面：常用组件、三种布局管理器与事件绑定。'
 tags:
   - Python
   - GUI

@@ -1,7 +1,7 @@
 ---
 title: '全栈从 0~1 手写 AI Agent 平台'
 description: '从运行循环、工具协议、流式接口到状态持久化和评测，拆开一个可上线的 Agent 平台。'
-date: 2026-08-07
+date: 2026-07-17
 tags:
   - AI Agent
   - TypeScript

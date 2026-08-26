@@ -1,7 +1,7 @@
 ---
 title: 'Vue 3.5 新特性'
 description: '从响应式重构到懒水合，梳理 Vue 3.5 真正值得在项目中使用的变化。'
-date: 2026-08-07
+date: 2026-08-01
 tags:
   - 'Vue 3.5'
   - 'Vue'

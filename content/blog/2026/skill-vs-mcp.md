@@ -1,7 +1,7 @@
 ---
 title: 'Skill 和 MCP 的区别'
 description: 'Skill 负责沉淀做事方法，MCP 负责连接工具与实时数据；两者解决的问题不同，也经常一起使用。'
-date: 2026-08-07
+date: 2026-07-15
 tags:
   - AI Agent
   - Skill

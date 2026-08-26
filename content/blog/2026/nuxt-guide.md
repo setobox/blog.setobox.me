@@ -1,7 +1,7 @@
 ---
 title: '关于 Nuxt 你应该知道的'
 description: '以 Nuxt 4 为基线，讲清目录、渲染、取数、Nitro、状态、水合与部署之间的关系。'
-date: 2026-08-07
+date: 2026-08-16
 tags:
   - 'Nuxt 4'
   - 'Nuxt'

@@ -1,11 +1,12 @@
 ---
 title: MarkDown 快速入门
+description: '整理 Markdown 的标题、列表、链接、图片、表格与代码块语法，以及写博客时常用的排版技巧。'
 tags:
   - markdown
 categories:
   - 笔记
 cover: '/images/posts/markdown.png'
-date: 1970-01-01 00:00:00
+date: 2020-05-18 10:32:15
 ---
 
 # MarkDown 简单介绍
