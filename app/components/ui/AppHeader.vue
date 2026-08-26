@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { onKeyStroke, useMediaQuery } from '@vueuse/core'
 import { nextTick, shallowRef, useTemplateRef, watch } from 'vue'
+import UiSearchDialog from '~/components/ui/SearchDialog.vue'
 import { primaryNavigation } from '~/features/shell/navigation'
 
 const route = useRoute()
 const open = shallowRef(false)
+const searchOpen = shallowRef(false)
 const isDesktop = useMediaQuery('(min-width: 80rem)')
 const drawer = useTemplateRef<HTMLElement>('drawer')
 const toggle = useTemplateRef<HTMLButtonElement>('toggle')
@@ -19,11 +21,21 @@ watch(isDesktop, (desktop) => {
 })
 
 onKeyStroke('Escape', (event) => {
-  if (!open.value)
+  // The search dialog owns Escape while it is open.
+  if (!open.value || searchOpen.value)
     return
 
   event.preventDefault()
   open.value = false
+})
+
+onKeyStroke('k', (event) => {
+  if (!event.metaKey && !event.ctrlKey)
+    return
+
+  event.preventDefault()
+  open.value = false
+  searchOpen.value = true
 })
 
 watch(open, async (isOpen) => {
@@ -80,6 +92,18 @@ watch(open, async (isOpen) => {
         </nav>
 
         <button
+          type="button"
+          class="text-ink-200 text-ink-400 ml-4 outline-none rounded-sm flex h-10 w-10 cursor-pointer transition-colors duration-240 items-center justify-center hover:text-ink-50 hover:text-ink-50 xl:px-2.5 xl:border xl:border-ink-700 xl:gap-2 xl:h-9 xl:w-40 xl:hover:border-ink-500"
+          aria-label="搜索文章"
+          aria-keyshortcuts="Meta+K Control+K"
+          @click="searchOpen = true"
+        >
+          <span class="i-lucide-search text-sm" aria-hidden="true" />
+          <span class="text-sm hidden xl:inline">Search</span>
+          <kbd class="text-xs font-mono hidden xl:inline">⌘+K</kbd>
+        </button>
+
+        <button
           ref="toggle"
           type="button"
           class="text-ink-100 outline-none rounded-sm flex h-10 w-10 items-center justify-center xl:hidden"
@@ -105,6 +129,8 @@ watch(open, async (isOpen) => {
       </div>
     </div>
   </header>
+
+  <UiSearchDialog v-model="searchOpen" />
 
   <Transition name="nav-drawer" :duration="{ enter: 520, leave: 240 }">
     <div v-if="open" class="nav-drawer-shell xl:hidden">

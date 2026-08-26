@@ -2,6 +2,7 @@ import type { FileAfterParseHook } from '@nuxt/content'
 import { appDescription, appName, siteUrl } from './app/constants/index'
 import { designTokens, fontPreloads } from './shared/design/tokens'
 import { resolveReadingMinutes } from './shared/utils/reading-time'
+import { buildSearchBody } from './shared/utils/search-text'
 
 export default defineNuxtConfig({
   modules: [
@@ -134,6 +135,9 @@ export default defineNuxtConfig({
         file.body,
         typeof minutes === 'number' ? minutes : undefined,
       )
+
+      // Derived here so the search index never has to walk the MDC AST.
+      content.searchBody = buildSearchBody(file.body)
     },
   },
 

@@ -28,7 +28,7 @@ export function resolveReadingMinutes(markdown: string, minutes?: number): numbe
   return estimateReadingMinutes(markdown)
 }
 
-function removeFrontmatter(markdown: string): string {
+export function removeFrontmatter(markdown: string): string {
   const content = markdown.replaceAll('\r\n', '\n')
   const normalizedContent = content.startsWith('\uFEFF') ? content.slice(1) : content
 
