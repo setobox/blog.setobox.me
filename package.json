@@ -15,7 +15,11 @@
     "typecheck": "nuxt typecheck"
   },
   "dependencies": {
-    "@giscus/vue": "catalog:frontend"
+    "@ai-sdk/openai-compatible": "catalog:ai",
+    "@ai-sdk/vue": "catalog:ai",
+    "@giscus/vue": "catalog:frontend",
+    "ai": "catalog:ai",
+    "zod": "catalog:dev"
   },
   "devDependencies": {
     "@antfu/eslint-config": "catalog:dev",
@@ -43,8 +47,7 @@
     "vitest": "catalog:dev",
     "vue": "catalog:frontend",
     "vue-tsc": "catalog:dev",
-    "wrangler": "catalog:build",
-    "zod": "catalog:dev"
+    "wrangler": "catalog:build"
   },
   "resolutions": {
     "@nuxt/devtools": "catalog:build",

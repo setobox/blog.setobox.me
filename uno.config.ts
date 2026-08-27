@@ -85,7 +85,8 @@ export default defineConfig({
   ],
   content: {
     pipeline: {
-      include: [/\.(vue|[jt]sx?|md)($|\?)/],
+      include: [/\.(vue|[jt]sx|md)($|\?)/],
+      exclude: [/node_modules/, /\.cache/, /\.nuxt/],
     },
   },
 })

@@ -6,6 +6,10 @@ trustPolicy: no-downgrade
 packages: []
 
 catalogs:
+  ai:
+    '@ai-sdk/openai-compatible': ^3.0.39
+    '@ai-sdk/vue': ^4.0.83
+    ai: ^7.0.83
   build:
     '@nuxt/content': ^3.15.0
     '@nuxt/devtools': ^3.2.4

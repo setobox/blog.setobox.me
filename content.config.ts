@@ -18,6 +18,9 @@ const PostSchema = z.object({
   pin: z.union([z.boolean(), z.number()]).optional(),
   // Derived in the content:file:afterParse hook, not authored in frontmatter.
   searchBody: z.string().optional(),
+  // Untruncated prose for the AI assistant. Must be selected explicitly so it
+  // never ships in a page payload.
+  aiBody: z.string().optional(),
   ...SeoFields,
 })
 

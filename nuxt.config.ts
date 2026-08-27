@@ -2,7 +2,7 @@ import type { FileAfterParseHook } from '@nuxt/content'
 import { appDescription, appName, siteUrl } from './app/constants/index'
 import { designTokens, fontPreloads } from './shared/design/tokens'
 import { resolveReadingMinutes } from './shared/utils/reading-time'
-import { buildSearchBody } from './shared/utils/search-text'
+import { buildSearchBody, markdownToSearchText } from './shared/utils/search-text'
 
 export default defineNuxtConfig({
   modules: [
@@ -56,6 +56,23 @@ export default defineNuxtConfig({
     database: {
       type: 'd1',
       bindingName: 'setobox-db',
+    },
+  },
+
+  // Entirely server-only: nothing here is under `runtimeConfig.public`, so the
+  // key never reaches the browser. Override per environment with
+  // NUXT_AI_API_KEY / NUXT_AI_BASE_URL / NUXT_AI_MODEL.
+  runtimeConfig: {
+    ai: {
+      apiKey: '',
+      baseUrl: '',
+      model: '',
+      // Site identity for the AI layer, which must not import ~/constants.
+      site: {
+        description: appDescription,
+        name: appName,
+        url: siteUrl,
+      },
     },
   },
 
@@ -118,6 +135,8 @@ export default defineNuxtConfig({
         'gsap',
         'gsap/ScrollTrigger',
         'gsap/SplitText',
+        '@ai-sdk/vue',
+        'ai',
       ],
     },
   },
@@ -138,6 +157,11 @@ export default defineNuxtConfig({
 
       // Derived here so the search index never has to walk the MDC AST.
       content.searchBody = buildSearchBody(file.body)
+
+      // Full prose for the AI assistant. Untruncated on purpose: `searchBody`
+      // is capped at 1200 chars, which is a snippet, not enough to answer from.
+      // Selected explicitly by the retriever so it never reaches page payloads.
+      content.aiBody = markdownToSearchText(file.body)
     },
   },
 

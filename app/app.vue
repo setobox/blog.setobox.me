@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import AiChatDialog from '#layers/ai/app/components/AiChatDialog.vue'
+import { shallowRef } from 'vue'
 import ActionButtonDock from '~/components/ActionButtonDock.vue'
 import UiAppFooter from '~/components/ui/AppFooter.vue'
 import UiAppHeader from '~/components/ui/AppHeader.vue'
@@ -6,7 +8,19 @@ import { useProvideActionButtons } from '~/composables/useActionButtons'
 import { appDescription, appName, siteUrl } from '~/constants'
 import { ARTICLE_LAYOUT_BOOTSTRAP_SCRIPT } from '~/features/article-layout/preferences'
 
-useProvideActionButtons()
+const { registerAction } = useProvideActionButtons()
+
+const chatOpen = shallowRef(false)
+
+registerAction({
+  icon: 'i-lucide-sparkles',
+  id: 'ai-chat',
+  label: 'AI 助手',
+  order: 2,
+  onClick: () => {
+    chatOpen.value = true
+  },
+})
 
 useHead({
   script: [{
@@ -54,4 +68,6 @@ useSeoMeta({
   </div>
 
   <ActionButtonDock />
+
+  <AiChatDialog v-model="chatOpen" />
 </template>
