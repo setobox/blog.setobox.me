@@ -11,7 +11,7 @@ description: ''
   - [Termius](https://termius.com/index.html) - 好看小巧
   - [WSL 2](https://learn.microsoft.com/en-us/windows/wsl/) - Linux 环境
 - Markdown: [Typora](https://typora.io) - 轻量、简洁、支持实时预览
-- AI: ChatGPT / Github Copilot / ~~Claude~~ / ~~Claude Code~~ / Codex
+- AI: ChatGPT / ~~Claude~~ / Github Copilot / Claude Code / Codex / DeepSeek / 火山引擎（语音播客）
 
 ## Design
 
@@ -35,5 +35,5 @@ description: ''
 
 ## Hardware
 
-- PC：~~i9-14900kf~~/ AMD Ryzen 9 9950X3D / RTX 4090 白猛禽
-- 笔记本：ROG 枪神9 - RTX 4070
+- PC（主力）：~~i9-14900KF~~（缩肛） / AMD Ryzen 9 9950X3D / RTX 4090 24GB
+- 笔记本（服务器、自动化任务）：rog-strix-g16-2026 - RTX 5070
