@@ -11,6 +11,7 @@ tags:
 categories:
   - 面试题
   - React
+draft: true
 ---
 
 React 面试容易变成 API 接龙，但真正贯穿大多数问题的是渲染模型：组件执行得到一份 UI 描述，状态更新安排下一次渲染，React 比较结果并在 commit 阶段更新宿主环境。Hooks、闭包、memo 和并发特性都建立在这套模型上。

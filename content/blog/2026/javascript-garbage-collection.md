@@ -9,6 +9,7 @@ tags:
 categories:
   - 面试题
   - JavaScript
+draft: true
 ---
 
 ## 先说结论：GC 回收的是不可达对象

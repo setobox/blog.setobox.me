@@ -9,6 +9,7 @@ tags:
 categories:
   - TypeScript
   - 编程练习
+draft: true
 ---
 
 ## 类型题到底在练什么

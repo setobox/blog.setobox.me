@@ -11,6 +11,7 @@ tags:
 categories:
   - 面试题
   - AI
+draft: true
 ---
 
 粗略地区分：**Skill 把做事方法及配套文件打成可复用的包；MCP 规范宿主怎样连接外部上下文与能力。**

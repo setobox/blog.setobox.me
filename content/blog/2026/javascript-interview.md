@@ -9,6 +9,7 @@ tags:
 categories:
   - 面试题
   - JavaScript
+draft: true
 ---
 
 ## 类型与类型转换
