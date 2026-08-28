@@ -25,7 +25,7 @@ export function aiModel(): LanguageModel {
   if (!apiKey) {
     throw createError({
       statusCode: 503,
-      statusMessage: 'AI is not configured. Set NUXT_AI_API_KEY.',
+      statusMessage: 'API key 已失效.',
     })
   }
 
