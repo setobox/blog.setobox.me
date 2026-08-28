@@ -29,6 +29,7 @@
     "@nuxt/devtools": "catalog:build",
     "@nuxt/eslint": "catalog:build",
     "@nuxt/image": "catalog:build",
+    "@nuxtjs/sitemap": "catalog:build",
     "@pinia/nuxt": "catalog:build",
     "@types/node": "catalog:dev",
     "@unocss/eslint-config": "catalog:build",

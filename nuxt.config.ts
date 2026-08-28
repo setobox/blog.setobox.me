@@ -12,6 +12,7 @@ export default defineNuxtConfig({
     '@nuxt/eslint',
     '@nuxt/content',
     '@nuxt/image',
+    '@nuxtjs/sitemap',
   ],
 
   devtools: {
@@ -51,6 +52,10 @@ export default defineNuxtConfig({
     '~/assets/css/tokens.css',
     '~/assets/css/prose.css',
   ],
+
+  site: {
+    url: 'https://blog.setobox.me',
+  },
 
   content: {
     database: {
