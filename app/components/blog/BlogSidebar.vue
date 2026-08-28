@@ -34,12 +34,11 @@ function sectionIsActive(path: string): boolean {
 </script>
 
 <template>
-  <nav data-text-reveal-ignore aria-label="博客导航">
+  <nav aria-label="博客导航">
     <ul class="m-0 p-0 list-none" :class="listClasses">
       <li v-for="entry in sectionNavigation" :key="entry.to">
         <NuxtLink
           :to="entry.to"
-          data-text-reveal="line"
           class="text-sm outline-none rounded-sm w-full transition-colors duration-240 touch-manipulation"
           :class="[
             linkClasses,

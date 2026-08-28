@@ -58,14 +58,10 @@ useSeoMeta({
 
   <UiAppHeader />
 
-  <div id="smooth-wrapper">
-    <div id="smooth-content" tabindex="-1">
-      <NuxtLayout>
-        <NuxtPage />
-      </NuxtLayout>
-      <UiAppFooter />
-    </div>
-  </div>
+  <NuxtLayout>
+    <NuxtPage />
+  </NuxtLayout>
+  <UiAppFooter />
 
   <ActionButtonDock />
 

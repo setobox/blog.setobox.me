@@ -14,7 +14,7 @@ usePageSeo({ title: '博客分类', description: '按分类浏览全部文章。
     </p>
     <ul v-if="categories.length" class="m-0 mt-block p-0 list-none gap-group grid lg:grid-cols-3 md:grid-cols-2 xl:grid-cols-4">
       <li v-for="term in categories" :key="term.name">
-        <NuxtLink data-page-item :to="term.path" class="group p-group surface surface-hover flex gap-item items-baseline justify-between focus-ring">
+        <NuxtLink :to="term.path" class="group p-group surface surface-hover flex gap-item items-baseline justify-between focus-ring">
           <span class="flex gap-3 min-w-0 items-center">
             <span class="i-lucide-folder text-ink-300 shrink-0 transition-colors duration-240 group-hover:text-accent" aria-hidden="true" />
             <span class="font-display text-h4 text-ink-50 transition-colors duration-240 group-hover:text-accent">{{ term.name }}</span>

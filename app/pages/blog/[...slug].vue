@@ -162,17 +162,17 @@ useHead({
         />
 
         <nav class="mt-section pt-block border-t border-ink-700 flex flex-col gap-group md:flex-row" aria-label="相邻文章">
-          <NuxtLink v-if="newer" data-page-item :to="newer.path" class="p-group surface surface-hover flex-1 focus-ring">
+          <NuxtLink v-if="newer" :to="newer.path" class="p-group surface surface-hover flex-1 focus-ring">
             <span class="text-meta">看看别的</span>
             <span class="text-ink-100 mt-item block">{{ newer.title }}</span>
           </NuxtLink>
-          <NuxtLink v-if="older" data-page-item :to="older.path" class="p-group surface surface-hover flex-1 md:text-right focus-ring">
+          <NuxtLink v-if="older" :to="older.path" class="p-group surface surface-hover flex-1 md:text-right focus-ring">
             <span class="text-meta">看看别的</span>
             <span class="text-ink-100 mt-item block">{{ older.title }}</span>
           </NuxtLink>
         </nav>
 
-        <div data-text-reveal-ignore class="mt-section">
+        <div class="mt-section">
           <ClientOnly>
             <Giscus
               id="comments"

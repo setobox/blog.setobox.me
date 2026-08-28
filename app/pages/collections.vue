@@ -54,7 +54,6 @@ usePageSeo({
       <ResourceSection
         v-for="group in collectionGroups"
         :key="group.title"
-        data-page-item
         :group="group"
       />
     </div>

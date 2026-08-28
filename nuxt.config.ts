@@ -19,6 +19,7 @@ export default defineNuxtConfig({
   },
 
   app: {
+    pageTransition: { name: 'page', mode: 'out-in' },
     head: {
       htmlAttrs: {
         lang: 'zh-CN',
@@ -132,9 +133,6 @@ export default defineNuxtConfig({
       include: [
         '@vue/devtools-core',
         '@vue/devtools-kit',
-        'gsap',
-        'gsap/ScrollTrigger',
-        'gsap/SplitText',
         '@ai-sdk/vue',
         'ai',
       ],

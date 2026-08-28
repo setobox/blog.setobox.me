@@ -14,14 +14,13 @@ const displayDate = computed(() => isoContentDate(props.post.date))
 
 <template>
   <article
-    data-page-item
     class="blog-post-card"
     :class="hasCover ? 'blog-post-card--with-cover' : 'blog-post-card--without-cover'"
   >
     <div class="blog-post-card__body">
       <div class="flex gap-3 min-w-0 items-start">
         <span class="blog-post-card__accent" aria-hidden="true" />
-        <h2 data-text-reveal="heading" class="blog-post-card__title">
+        <h2 class="blog-post-card__title">
           <NuxtLink class="blog-post-card__title-link focus-ring" :to="post.path">
             <span v-if="isPinned" class="i-lucide-pin text-accent mt-1 shrink-0" aria-hidden="true" />
             <span v-if="isPinned" class="sr-only">置顶：</span>
@@ -30,7 +29,7 @@ const displayDate = computed(() => isoContentDate(props.post.date))
         </h2>
       </div>
 
-      <div data-text-reveal="line" class="blog-post-card__meta">
+      <div class="blog-post-card__meta">
         <span class="inline-flex gap-1.5 items-center">
           <span class="i-lucide-calendar-days" aria-hidden="true" />
           <time :datetime="displayDate">{{ displayDate }}</time>
@@ -46,11 +45,11 @@ const displayDate = computed(() => isoContentDate(props.post.date))
         </NuxtLink>
       </div>
 
-      <p v-if="post.description" data-text-reveal="line" class="blog-post-card__description">
+      <p v-if="post.description" class="blog-post-card__description">
         {{ post.description }}
       </p>
 
-      <div v-if="post.tags?.length" data-text-reveal="line" class="blog-post-card__tags" aria-label="文章标签">
+      <div v-if="post.tags?.length" class="blog-post-card__tags" aria-label="文章标签">
         <NuxtLink
           v-for="tag in post.tags"
           :key="tag"
@@ -80,9 +79,8 @@ const displayDate = computed(() => isoContentDate(props.post.date))
   border-radius: 0.75rem;
   background: #14181d;
   transition:
-    transform 200ms,
-    box-shadow 200ms,
-    border-color 200ms;
+    transform var(--motion-fast),
+    border-color var(--motion-fast);
 }
 
 .blog-post-card--with-cover {
@@ -216,10 +214,6 @@ html[data-article-layout='grid'] .blog-post-card__body {
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .blog-post-card {
-    transition: none;
-  }
-
   .blog-post-card:hover {
     transform: none;
   }

@@ -9,13 +9,13 @@ defineProps<Props>()
 
 <template>
   <header data-page-intro class="pb-group border-b border-ink-700">
-    <p data-text-reveal="line" class="text-meta text-accent">
+    <p class="text-meta text-accent">
       SYSTEM / PAGE
     </p>
-    <h1 data-text-reveal="heading" class="font-display text-display-lg text-ink-50 mt-item">
+    <h1 class="font-display text-display-lg text-ink-50 mt-item">
       {{ title }}
     </h1>
-    <p v-if="description" data-text-reveal="line" class="text-lead mt-group max-w-prose">
+    <p v-if="description" class="text-lead mt-group max-w-prose">
       {{ description }}
     </p>
   </header>

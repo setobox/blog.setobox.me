@@ -112,11 +112,11 @@ useEventListener(shell, 'focusout', (event: FocusEvent) => {
 
 <template>
   <Teleport to="body">
-    <Transition name="search">
+    <Transition name="dialog">
       <div v-if="open" class="search-overlay" @pointerdown.self="close">
         <div
           ref="shell"
-          class="search-shell"
+          class="search-shell dialog-shell"
           role="dialog"
           aria-modal="true"
           aria-labelledby="search-dialog-label"
@@ -442,41 +442,5 @@ useEventListener(shell, 'focusout', (event: FocusEvent) => {
   display: flex;
   align-items: center;
   gap: 0.25rem;
-}
-
-.search-enter-active,
-.search-leave-active {
-  transition: opacity 160ms ease;
-}
-
-.search-enter-active .search-shell,
-.search-leave-active .search-shell {
-  transition:
-    transform 160ms ease,
-    opacity 160ms ease;
-}
-
-.search-enter-from,
-.search-leave-to {
-  opacity: 0;
-}
-
-.search-enter-from .search-shell,
-.search-leave-to .search-shell {
-  transform: translateY(-0.5rem) scale(0.99);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .search-enter-active,
-  .search-leave-active,
-  .search-enter-active .search-shell,
-  .search-leave-active .search-shell {
-    transition-duration: 1ms;
-  }
-
-  .search-enter-from .search-shell,
-  .search-leave-to .search-shell {
-    transform: none;
-  }
 }
 </style>

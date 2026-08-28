@@ -85,11 +85,11 @@ useEventListener(shell, 'focusout', (event: FocusEvent) => {
 
 <template>
   <Teleport to="body">
-    <Transition name="ai-chat">
+    <Transition name="dialog">
       <div v-if="open" class="ai-chat-overlay" @pointerdown.self="close">
         <div
           ref="shell"
-          class="ai-chat-shell"
+          class="ai-chat-shell dialog-shell"
           role="dialog"
           aria-modal="true"
           aria-labelledby="ai-chat-label"
@@ -238,41 +238,5 @@ useEventListener(shell, 'focusout', (event: FocusEvent) => {
   font: inherit;
   outline: none;
   resize: none;
-}
-
-.ai-chat-enter-active,
-.ai-chat-leave-active {
-  transition: opacity 160ms ease;
-}
-
-.ai-chat-enter-active .ai-chat-shell,
-.ai-chat-leave-active .ai-chat-shell {
-  transition:
-    transform 160ms ease,
-    opacity 160ms ease;
-}
-
-.ai-chat-enter-from,
-.ai-chat-leave-to {
-  opacity: 0;
-}
-
-.ai-chat-enter-from .ai-chat-shell,
-.ai-chat-leave-to .ai-chat-shell {
-  transform: translateY(-0.5rem) scale(0.99);
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .ai-chat-enter-active,
-  .ai-chat-leave-active,
-  .ai-chat-enter-active .ai-chat-shell,
-  .ai-chat-leave-active .ai-chat-shell {
-    transition-duration: 1ms;
-  }
-
-  .ai-chat-enter-from .ai-chat-shell,
-  .ai-chat-leave-to .ai-chat-shell {
-    transform: none;
-  }
 }
 </style>

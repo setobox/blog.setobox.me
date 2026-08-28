@@ -1,4 +1,4 @@
-/** Runtime-independent visual tokens shared by UnoCSS, Nuxt, and GSAP. */
+/** Runtime-independent visual tokens shared by UnoCSS and Nuxt. */
 
 const ink = {
   950: '#08090B',
@@ -156,6 +156,10 @@ export const runtimeCssVars = {
   '--c-layer': designTokens.colors.layer.motion,
   '--c-accent': designTokens.colors.accent,
   '--c-text': designTokens.colors.ink[100],
+  '--motion-instant': `${designTokens.motion.duration.instant * 1000}ms`,
+  '--motion-fast': `${designTokens.motion.duration.fast * 1000}ms`,
+  '--motion-base': `${designTokens.motion.duration.base * 1000}ms`,
+  '--motion-slow': `${designTokens.motion.duration.slow * 1000}ms`,
 } as const
 
 export function renderRuntimeCssVars(): string {
@@ -176,5 +180,3 @@ export const fontPreloads = [{
   type: 'font/woff2',
   crossorigin: '',
 }] as const
-
-export const gsapTokens = designTokens.motion

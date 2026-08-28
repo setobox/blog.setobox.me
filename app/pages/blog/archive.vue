@@ -54,7 +54,7 @@ usePageSeo({ title: '博客归档', description: '按时间浏览全部文章。
         </div>
         <ul class="archive-timeline__entries">
           <li v-for="post in group.posts" :key="post.path">
-            <NuxtLink data-page-item :to="post.path" class="archive-timeline__entry focus-ring">
+            <NuxtLink :to="post.path" class="archive-timeline__entry focus-ring">
               <span class="archive-timeline__marker" aria-hidden="true" />
               <span>{{ post.title }}</span>
             </NuxtLink>

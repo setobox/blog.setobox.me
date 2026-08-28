@@ -100,7 +100,7 @@ onMounted(refreshHeadings)
 
 <template>
   <nav v-if="items.length" aria-label="文章目录">
-    <h2 data-text-reveal="heading" class="text-meta">
+    <h2 class="text-meta">
       目录
     </h2>
     <div
@@ -112,7 +112,6 @@ onMounted(refreshHeadings)
         <li v-for="item in items" :key="item.id">
           <a
             :href="`#${encodeURIComponent(item.id)}`"
-            data-text-reveal="line"
             :data-toc-id="item.id"
             class="text-sm leading-snug py-1 outline-none border-l-2 block transition-colors duration-240 -ml-px"
             :class="[

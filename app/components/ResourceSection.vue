@@ -15,10 +15,10 @@ function isExternalLink(href: string): boolean {
 <template>
   <section>
     <header class="pb-group border-b border-ink-700">
-      <h2 data-text-reveal="heading" class="font-display text-h2 text-ink-50">
+      <h2 class="font-display text-h2 text-ink-50">
         {{ group.title }}
       </h2>
-      <p v-if="group.description" data-text-reveal="line" class="text-sm text-ink-300 leading-relaxed mt-item max-w-prose">
+      <p v-if="group.description" class="text-sm text-ink-300 leading-relaxed mt-item max-w-prose">
         {{ group.description }}
       </p>
     </header>
@@ -26,7 +26,6 @@ function isExternalLink(href: string): boolean {
     <ul v-if="group.items.length" class="m-0 p-0 list-none gap-x-8 grid md:grid-cols-2 xl:grid-cols-3">
       <li v-for="item in group.items" :key="item.href" class="border-b border-ink-700">
         <NuxtLink
-          data-text-reveal="line"
           class="group text-ink-200 py-5 rounded-sm no-underline flex gap-4 min-h-20 transition-colors duration-240 items-start hover:text-ink-50 focus-ring"
           :external="isExternalLink(item.href)"
           :rel="isExternalLink(item.href) ? 'noopener noreferrer' : undefined"

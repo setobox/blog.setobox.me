@@ -1,26 +1,5 @@
-<script setup lang="ts">
-import { computed, useTemplateRef } from 'vue'
-
-const route = useRoute()
-const pageRoot = useTemplateRef<HTMLElement>('pageRoot')
-const isCompactRevealPage = computed(() => {
-  const path = route.path
-  return path === '/blog/archive'
-    || path === '/blog/categories'
-    || path.startsWith('/blog/categories/')
-    || path === '/blog/tags'
-    || path.startsWith('/blog/tags/')
-})
-
-usePageEntrance(pageRoot, {
-  headingEffect: () => 'hero',
-  revealInterval: () => isCompactRevealPage.value ? 0.035 : 0.07,
-  revealMaxSpan: () => isCompactRevealPage.value ? 0.35 : Number.POSITIVE_INFINITY,
-})
-</script>
-
 <template>
-  <main id="main-content" ref="pageRoot" class="container-wide pb-block pt-20 md:pt-24">
+  <main id="main-content" class="container-wide pb-block pt-20 md:pt-24">
     <div class="lg:flex lg:gap-block">
       <div class="blog-mobile-nav mb-group p-item surface lg:hidden">
         <BlogSidebar orientation="horizontal" />

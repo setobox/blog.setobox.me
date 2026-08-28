@@ -15,7 +15,6 @@ const licenseUrl = 'https://creativecommons.org/licenses/by-nc-sa/4.0/'
 
 <template>
   <section
-    data-page-item
     aria-label="文章版权声明"
     class="px-6 py-7 surface relative overflow-hidden isolate md:px-9 md:py-8"
   >

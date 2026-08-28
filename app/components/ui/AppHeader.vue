@@ -50,7 +50,7 @@ watch(open, async (isOpen) => {
 <template>
   <header class="border-b border-ink-800 bg-ink-950/70 inset-x-0 top-0 fixed backdrop-blur-md z-header">
     <a
-      href="#smooth-content"
+      href="#main-content"
       class="sr-only focus:text-sm focus:text-ink-950 focus:px-3 focus:py-2 focus:rounded-sm focus:bg-accent focus:left-4 focus:top-4 focus:absolute focus:not-sr-only focus:z-overlay"
     >
       跳到主内容
@@ -226,7 +226,7 @@ watch(open, async (isOpen) => {
 
 .nav-drawer-enter-active,
 .nav-drawer-leave-active {
-  transition: opacity 240ms ease;
+  transition: opacity var(--motion-fast) ease;
 }
 
 .nav-drawer-enter-active .nav-drawer-panel {
@@ -250,16 +250,6 @@ watch(open, async (isOpen) => {
 @media (min-width: 48rem) {
   .nav-drawer-shell {
     inset-block-start: 4rem;
-  }
-}
-
-@media (prefers-reduced-motion: reduce) {
-  .menu-icon__line,
-  .nav-drawer-enter-active,
-  .nav-drawer-leave-active,
-  .nav-drawer-enter-active .nav-drawer-panel,
-  .nav-drawer-leave-active .nav-drawer-panel {
-    transition-duration: 1ms;
   }
 }
 </style>

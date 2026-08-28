@@ -22,7 +22,7 @@ usePageSeo({
   <article class="container-prose py-block">
     <PageIntro :title="contentPage.title" :description="contentPage.description" />
 
-    <div data-page-item class="mt-block">
+    <div class="mt-block">
       <ContentRenderer
         :value="contentPage"
         class="max-w-none prose"
