@@ -32,6 +32,9 @@ useHead({
   // Pages set a bare `title`; this appends the site name so they do not have
   // to repeat it. Collapses to `appName` alone on the site root.
   titleTemplate: title => (title && title !== appName ? `${title} · ${appName}` : appName),
+  link: [
+    { rel: 'canonical', href: siteUrl },
+  ],
 })
 
 // Site-wide social defaults. Post pages override these with per-article values.
@@ -41,11 +44,18 @@ useSeoMeta({
   ogLocale: 'zh_CN',
   ogTitle: appName,
   ogDescription: appDescription,
+  ogUrl: siteUrl,
   ogImage: `${siteUrl}/avatar.jpg`,
+  ogImageWidth: '1200',
+  ogImageHeight: '630',
+  ogImageAlt: appDescription,
   twitterCard: 'summary_large_image',
+  twitterSite: '@setobox',
+  twitterCreator: '@setobox',
   twitterTitle: appName,
   twitterDescription: appDescription,
   twitterImage: `${siteUrl}/avatar.jpg`,
+  twitterImageAlt: appDescription,
 })
 </script>
 

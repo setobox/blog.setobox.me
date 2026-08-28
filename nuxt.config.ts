@@ -26,12 +26,9 @@ export default defineNuxtConfig({
       },
       viewport: 'width=device-width,initial-scale=1',
       link: [
-        {
-          rel: 'icon',
-          href: '/_ipx/f_webp&q_80&s_40x40/avatar.jpg',
-          sizes: '40x40',
-          type: 'image/webp',
-        },
+        { rel: 'icon', href: '/favicon.ico', sizes: '32x32' },
+        { rel: 'icon', href: '/avatar.jpg', sizes: '192x192', type: 'image/jpeg' },
+        { rel: 'apple-touch-icon', href: '/avatar.jpg', sizes: '180x180' },
         {
           rel: 'alternate',
           type: 'application/rss+xml',
@@ -42,7 +39,9 @@ export default defineNuxtConfig({
       ],
       meta: [
         { name: 'description', content: appDescription },
+        { name: 'author', content: 'Setobox' },
         { name: 'theme-color', content: designTokens.colors.beat.s1 },
+        { name: 'format-detection', content: 'telephone=no' },
       ],
     },
   },
