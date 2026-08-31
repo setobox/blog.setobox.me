@@ -10,6 +10,7 @@ tags:
 categories:
   - '前端'
   - 'Vue'
+draft: true
 ---
 
 Vue 3.5 没有破坏性变更，升级时很少需要改业务代码，但它并不是一次只修边角问题的小版本。响应式系统重构、Reactive Props Destructure 稳定、模板 ref、SSR 懒水合和 watcher 清理，都能直接改善日常开发。

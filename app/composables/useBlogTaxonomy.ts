@@ -6,7 +6,13 @@ import { aggregateTaxonomy } from '~/utils/blog-taxonomy'
 function useBlogFacets() {
   return useAsyncData(
     'blog-taxonomy-facets',
-    () => queryCollection('blog').select('categories', 'tags').all(),
+    () => {
+      const query = queryCollection('blog')
+      if (!import.meta.dev)
+        query.where('draft', '=', false)
+
+      return query.select('categories', 'tags').all()
+    },
     {
       dedupe: 'defer',
       deep: false,

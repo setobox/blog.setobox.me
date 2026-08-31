@@ -16,6 +16,7 @@ const PostSchema = z.object({
   tags: z.array(z.string()).optional(),
   categories: z.array(z.string()).optional(),
   pin: z.union([z.boolean(), z.number()]).optional(),
+  draft: z.boolean().default(false),
   // Derived in the content:file:afterParse hook, not authored in frontmatter.
   searchBody: z.string().optional(),
   // Untruncated prose for the AI assistant. Must be selected explicitly so it

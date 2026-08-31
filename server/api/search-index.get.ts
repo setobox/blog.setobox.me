@@ -77,8 +77,12 @@ function resourceDocs(groups: readonly ResourceGroup[]): SearchDoc[] {
 
 export default defineCachedEventHandler(
   async (event): Promise<SearchIndex> => {
-    const posts = await queryCollection(event, 'blog')
+    const postsQuery = queryCollection(event, 'blog')
       .where('noindex', '=', false)
+    if (!import.meta.dev)
+      postsQuery.where('draft', '=', false)
+
+    const posts = await postsQuery
       .order('date', 'DESC')
       .select('categories', 'date', 'description', 'id', 'path', 'searchBody', 'tags', 'title')
       .all() as IndexPost[]

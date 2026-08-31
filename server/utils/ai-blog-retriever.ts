@@ -25,8 +25,12 @@ interface AiPost {
 export function createBlogRetriever(event: H3Event): Retriever {
   return {
     async search(query, limit) {
-      const posts = (await queryCollection(event, 'blog')
+      const postsQuery = queryCollection(event, 'blog')
         .where('noindex', '=', false)
+      if (!import.meta.dev)
+        postsQuery.where('draft', '=', false)
+
+      const posts = (await postsQuery
         .order('date', 'DESC')
         .select('date', 'description', 'id', 'path', 'searchBody', 'title')
         .all()) as AiPost[]
@@ -52,8 +56,12 @@ export function createBlogRetriever(event: H3Event): Retriever {
     },
 
     async readArticle(path) {
-      const post = (await queryCollection(event, 'blog')
+      const postQuery = queryCollection(event, 'blog')
         .where('noindex', '=', false)
+      if (!import.meta.dev)
+        postQuery.where('draft', '=', false)
+
+      const post = (await postQuery
         .path(path)
         .select('aiBody', 'path', 'searchBody', 'title')
         .first()) as AiPost | undefined

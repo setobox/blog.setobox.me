@@ -36,8 +36,12 @@ const staticEntries: readonly Omit<SitemapEntry, 'lastmod'>[] = [
 ]
 
 export default defineEventHandler(async (event) => {
-  const posts = await queryCollection(event, 'blog')
+  const postsQuery = queryCollection(event, 'blog')
     .where('noindex', '=', false)
+  if (!import.meta.dev)
+    postsQuery.where('draft', '=', false)
+
+  const posts = await postsQuery
     .order('date', 'DESC')
     .select('categories', 'date', 'path', 'tags', 'updated')
     .all() as SitemapPost[]

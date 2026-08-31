@@ -30,12 +30,20 @@ export default defineEventHandler(async (event): Promise<BlogPageResponse> => {
     query => blogPageQuerySchema.parse(query),
   )
 
-  const total = await queryCollection(event, 'blog').count()
+  const countQuery = queryCollection(event, 'blog')
+  if (!import.meta.dev)
+    countQuery.where('draft', '=', false)
+
+  const total = await countQuery.count()
   const pageCount = Math.max(1, Math.ceil(total / BLOG_PAGE_SIZE))
   const page = Math.min(requestedPage, pageCount)
   const offset = (page - 1) * BLOG_PAGE_SIZE
 
-  const items = await queryCollection(event, 'blog')
+  const itemsQuery = queryCollection(event, 'blog')
+  if (!import.meta.dev)
+    itemsQuery.where('draft', '=', false)
+
+  const items = await itemsQuery
     .order('pin', 'DESC')
     .order('date', 'DESC')
     .order('path', 'ASC')

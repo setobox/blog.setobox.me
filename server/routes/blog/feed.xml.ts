@@ -13,8 +13,12 @@ function toRFC822(date: string | Date): string {
 
 export default defineEventHandler(async (event) => {
   // Fetch all blog posts sorted by date
-  const posts = await queryCollection(event, 'blog')
+  const postsQuery = queryCollection(event, 'blog')
     .where('noindex', '=', false)
+  if (!import.meta.dev)
+    postsQuery.where('draft', '=', false)
+
+  const posts = await postsQuery
     .order('date', 'DESC')
     .select('title', 'description', 'date', 'path', 'id')
     .all() as BlogPostSummary[]
